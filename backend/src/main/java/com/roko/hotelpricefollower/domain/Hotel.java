@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Table(name = "hotels")
@@ -20,4 +22,7 @@ public class Hotel {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 }
