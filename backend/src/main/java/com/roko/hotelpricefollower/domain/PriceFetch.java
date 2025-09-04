@@ -1,4 +1,26 @@
 package com.roko.hotelpricefollower.domain;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+@Entity
+@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "price_fetches")
 public class PriceFetch {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "fetch_time", nullable = false)
+    private Instant fetchTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scrape_profile_id", nullable = false)
+    private ScrapeProfile scrapeProfile;
 }
