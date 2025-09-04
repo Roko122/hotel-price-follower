@@ -10,8 +10,8 @@ import java.time.LocalDate;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "price_data")
-public class PriceData {
+@Table(name = "room_prices")
+public class RoomPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
