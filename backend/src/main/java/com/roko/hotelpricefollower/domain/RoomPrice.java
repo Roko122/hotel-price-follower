@@ -20,10 +20,10 @@ public class RoomPrice {
     @Column(name = "price_in_cents", precision = 6, scale = 0)
     private Long priceInCents;
 
-    @Column(name = "departure_date")
+    @Column(name = "departure_date", nullable = false)
     private LocalDate departureDate;
 
-    @Column(name = "sold_out")
+    @Column(name = "sold_out", nullable = false)
     private boolean soldOut;
 
     @Column(name = "additional_info")
@@ -33,7 +33,7 @@ public class RoomPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
-    @JoinColumn(name = "price_fetch_id")
+    @JoinColumn(name = "price_fetch_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private PriceFetch priceFetch;
 }
