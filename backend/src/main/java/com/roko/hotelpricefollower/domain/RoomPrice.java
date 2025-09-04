@@ -33,4 +33,7 @@ public class RoomPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
+    @JoinColumn(name = "price_fetch_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PriceFetch priceFetch;
 }
