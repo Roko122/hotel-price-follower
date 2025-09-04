@@ -15,7 +15,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
