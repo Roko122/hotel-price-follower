@@ -13,7 +13,7 @@ public class HotelScraper {
 
     private final WebDriver driver;
 
-    public HotelScraper(WebDriver driver, HotelParser hotelParser) {
+    public HotelScraper(WebDriver driver) {
         this.driver = driver;
     }
 
