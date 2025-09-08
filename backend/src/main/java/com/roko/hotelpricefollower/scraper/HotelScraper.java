@@ -12,36 +12,28 @@ import java.time.Duration;
 public class HotelScraper {
 
     private final WebDriver driver;
-    private final HotelParser hotelParser;
 
     public HotelScraper(WebDriver driver, HotelParser hotelParser) {
         this.driver = driver;
-        this.hotelParser = hotelParser;
     }
 
-    public void getHotelPrices(String hotelUrl) {
-        WebElement priceMatrix;
-
-        try {
-            priceMatrix = this.getPriceMatrix(hotelUrl);
-        } catch (TimeoutException e) {
-            throw new PriceMatrixNotFoundException("Could not find price matrix, please try again later.\n" + hotelUrl);
-        }
-    }
-
-    private WebElement getPriceMatrix(String hotelUrl) {
+    public WebElement getPriceMatrix(String hotelUrl) {
         driver.get(hotelUrl);
 
-        return getWait().until(driver ->
-                driver.findElement(By.className("tcne-pm-main-matrix__block")));
+        try {
+            return getWait().until(driver ->
+                    driver.findElement(By.className("tcne-pm-main-matrix__block")));
+        } catch (TimeoutException e) {
+            throw new PriceMatrixNotFoundException("Could not find price matrix, please try again later.\n" + hotelUrl);
+        } finally {
+            driver.quit();
+        }
     }
 
     private Wait<WebDriver> getWait() {
         return new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30L))
-                .pollingEvery(Duration.ofSeconds(15L))
+                .pollingEvery(Duration.ofSeconds(5L))
                 .ignoring(NoSuchElementException.class);
     }
-
-
 }
