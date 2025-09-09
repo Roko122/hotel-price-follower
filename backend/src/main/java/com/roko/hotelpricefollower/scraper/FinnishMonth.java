@@ -23,4 +23,8 @@ public enum FinnishMonth {
     public int getMonthNumber() {
         return monthNumber;
     }
+
+    public static int getMonthNumber(String monthName) {
+        return valueOf(monthName.toUpperCase()).getMonthNumber();
+    }
 }
