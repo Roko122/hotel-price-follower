@@ -20,6 +20,10 @@ public class RoomPriceParser {
         return this.roomNamesAndPrices(roomElements);
     }
 
+    private Elements roomElements(Document priceMatrix) {
+        return priceMatrix.getElementsByClass("tcne-pm-roomoffers-row");
+    }
+
     private Map<String, List<ParsedRoomPrice>> roomNamesAndPrices(Elements roomElements) {
         Map<String, List<ParsedRoomPrice>> roomNameAndPrices = new LinkedHashMap<>();
 
@@ -43,7 +47,7 @@ public class RoomPriceParser {
 
             //Check if room is sold out, otherwise parse price
             String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
-            if (possiblePrice.equalsIgnoreCase("Loppuunmyyty")) {
+            if (isSoldOut(possiblePrice)) {
                 roomPrice.setSoldOut(true);
             } else {
                 Long price = Long.parseLong(possiblePrice.split(",")[0].replace(" ", ""));
@@ -52,7 +56,7 @@ public class RoomPriceParser {
 
             //Check if price contains additional information
             String possibleAdditionalInfo = priceElement.getElementsByClass("tcne-pm-price-cell__label").text();
-            if (!possibleAdditionalInfo.isEmpty()) {
+            if (hasAdditionalInfo(possibleAdditionalInfo)) {
                 roomPrice.setAdditionalInformation(possibleAdditionalInfo);
             }
 
@@ -62,10 +66,13 @@ public class RoomPriceParser {
         return roomPrices;
     }
 
-    private Elements roomElements(Document priceMatrix) {
-        return priceMatrix.getElementsByClass("tcne-pm-roomoffers-row");
+    private boolean isSoldOut(String possiblePrice) {
+        return possiblePrice.equalsIgnoreCase("Loppuunmyyty");
     }
 
+    private boolean hasAdditionalInfo(String possibleAdditionalInfo) {
+        return !possibleAdditionalInfo.isEmpty();
+    }
 
     //Helper class
     public class ParsedRoomPrice {
@@ -75,12 +82,6 @@ public class RoomPriceParser {
 
         public ParsedRoomPrice() {
             this.soldOut = false;
-        }
-
-        public ParsedRoomPrice(Long price, boolean soldOut, String additionalInformation) {
-            this.price = price;
-            this.soldOut = soldOut;
-            this.additionalInformation = additionalInformation;
         }
 
         public Long getPrice() {
