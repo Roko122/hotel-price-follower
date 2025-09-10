@@ -1,6 +1,5 @@
 package com.roko.hotelpricefollower.scraper;
 
-import com.roko.hotelpricefollower.domain.RoomPrice;
 import com.roko.hotelpricefollower.exception.PriceMatrixNotFoundException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -8,27 +7,21 @@ import org.openqa.selenium.support.ui.Wait;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.List;
 
 @Service
 public class HotelScraper {
 
     private final WebDriver driver;
-    private final HotelParser hotelParser;
 
-    public HotelScraper(WebDriver driver, HotelParser hotelParser) {
+    public HotelScraper(WebDriver driver) {
         this.driver = driver;
-        this.hotelParser = hotelParser;
     }
 
-    public List<RoomPrice> getRoomPrices(String hotelUrl) throws PriceMatrixNotFoundException {
-        WebElement priceMatrix = getPriceMatrix(hotelUrl);
-        //TODO: get list of RoomPrice objects from HotelParser
-
-        return null;
+    public String scrapePriceMatrix(String hotelUrl) throws PriceMatrixNotFoundException {
+        return this.getPriceMatrix(hotelUrl);
     }
 
-    private WebElement getPriceMatrix(String hotelUrl) {
+    private String getPriceMatrix(String hotelUrl) {
         driver.get(hotelUrl);
 
         try {
@@ -39,10 +32,12 @@ public class HotelScraper {
             closeCookiesPopup();
             openPriceSummary(priceMatrix);
 
-            return priceMatrix;
+            //return HTML as a String
+            return priceMatrix.getDomProperty("outerHTML");
         } catch (TimeoutException e) {
-            driver.quit();
             throw new PriceMatrixNotFoundException("Could not find price matrix, please try again later.\n" + hotelUrl);
+        } finally {
+            driver.quit();
         }
     }
 
