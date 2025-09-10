@@ -43,27 +43,32 @@ public class RoomPriceParser {
 
         List<ParsedRoomPrice> roomPrices = new ArrayList<>();
         for (Element priceElement : priceElements) {
-            ParsedRoomPrice roomPrice = new ParsedRoomPrice();
-
-            //Check if room is sold out, otherwise parse price
-            String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
-            if (isSoldOut(possiblePrice)) {
-                roomPrice.setSoldOut(true);
-            } else {
-                Long price = Long.parseLong(possiblePrice.split(",")[0].replace(" ", ""));
-                roomPrice.setPrice(price);
-            }
-
-            //Check if price contains additional information
-            String possibleAdditionalInfo = priceElement.getElementsByClass("tcne-pm-price-cell__label").text();
-            if (hasAdditionalInfo(possibleAdditionalInfo)) {
-                roomPrice.setAdditionalInformation(possibleAdditionalInfo);
-            }
-
-            roomPrices.add(roomPrice);
+            ParsedRoomPrice parsedRoomPrice = parseSingleRoomPrice(priceElement);
+            roomPrices.add(parsedRoomPrice);
         }
 
         return roomPrices;
+    }
+
+    private ParsedRoomPrice parseSingleRoomPrice(Element priceElement) {
+        ParsedRoomPrice roomPrice = new ParsedRoomPrice();
+
+        //Check if room is sold out, otherwise parse price
+        String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
+        if (isSoldOut(possiblePrice)) {
+            roomPrice.setSoldOut(true);
+        } else {
+            Long price = Long.parseLong(possiblePrice.split(",")[0].replace(" ", ""));
+            roomPrice.setPrice(price);
+        }
+
+        //Check if price contains additional information
+        String possibleAdditionalInfo = priceElement.getElementsByClass("tcne-pm-price-cell__label").text();
+        if (hasAdditionalInfo(possibleAdditionalInfo)) {
+            roomPrice.setAdditionalInformation(possibleAdditionalInfo);
+        }
+
+        return roomPrice;
     }
 
     private boolean isSoldOut(String possiblePrice) {
