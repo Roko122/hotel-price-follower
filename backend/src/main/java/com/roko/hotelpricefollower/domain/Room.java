@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "Rooms")
+@Table(name = "rooms")
 public class Room {
 
     @Id
