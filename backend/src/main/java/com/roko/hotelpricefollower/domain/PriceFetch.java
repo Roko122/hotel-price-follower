@@ -20,6 +20,12 @@ public class PriceFetch {
     @Column(name = "fetch_time", nullable = false)
     private Instant fetchTime;
 
+    @Column(name = "success", nullable = false)
+    private boolean success;
+
+    @Column(name = "error")
+    private String error;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scrape_profile_id", nullable = false)
     private ScrapeProfile scrapeProfile;
