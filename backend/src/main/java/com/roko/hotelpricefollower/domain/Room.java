@@ -10,8 +10,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "rooms")
-public class Room {
+@Table(
+        name = "rooms",
+        indexes = {
+                @Index(name = "idx_uq_hotel_type", columnList = "hotel_id, type", unique = true)
+        }
+)
+ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
