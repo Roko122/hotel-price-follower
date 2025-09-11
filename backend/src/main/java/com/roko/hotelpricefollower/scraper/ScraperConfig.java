@@ -11,8 +11,9 @@ public class ScraperConfig {
 
     @Bean
     public WebDriver setupChromeDriver() {
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless-new");
-        return new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--window-size=1920,1080");
+        return new ChromeDriver(options);
     }
 }
