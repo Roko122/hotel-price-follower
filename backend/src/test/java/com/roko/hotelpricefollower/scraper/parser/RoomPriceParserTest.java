@@ -24,7 +24,7 @@ public class RoomPriceParserTest {
     private Document priceMatrixDoc;
 
     public RoomPriceParserTest() throws IOException {
-        this.exampleHTML = new File("src/test/resources/html/price_matrix.html");
+        this.exampleHTML = new File("src/test/resources/html/price_matrix_four_dates.html");
         this.priceMatrixDoc = Jsoup.parse(exampleHTML, "UTF-8");
     }
 

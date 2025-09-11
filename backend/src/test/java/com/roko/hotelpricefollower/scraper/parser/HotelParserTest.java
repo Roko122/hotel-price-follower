@@ -18,19 +18,32 @@ public class HotelParserTest {
     @Autowired
     private HotelParser hotelParser;
 
-    private File exampleHTML;
-    private String priceMatrixString;
+    private final File exampleHTML4Dates;
+    private final String priceMatrixString4Dates;
+    private final File exampleHTML1Date;
+    private final String priceMatrixString1Date;
 
     public HotelParserTest() throws IOException {
-        this.exampleHTML = new File("src/test/resources/html/price_matrix.html");
-        this.priceMatrixString = Jsoup.parse(exampleHTML, "UTF-8").toString();
+        this.exampleHTML4Dates = new File("src/test/resources/html/price_matrix_four_dates.html");
+        this.priceMatrixString4Dates = Jsoup.parse(exampleHTML4Dates, "UTF-8").toString();
+        this.exampleHTML1Date = new File("src/test/resources/html/price_matrix_one_date.html");
+        this.priceMatrixString1Date = Jsoup.parse(exampleHTML1Date, "UTF-8").toString();
     }
 
     @Test
-    public void testThatHotelParserReturnsAListOfRoomPriceData() {
-        List<RoomPriceData> roomPriceDataList = hotelParser.parseRoomPrices(priceMatrixString);
+    public void testThatHotelParserReturnsAListOfRoomPriceDataWith4Dates() {
+        List<RoomPriceData> roomPriceDataList = hotelParser.parseRoomPrices(priceMatrixString4Dates);
         assertFalse(roomPriceDataList.isEmpty(), "RoomPriceDataList is empty");
         assertEquals(76, roomPriceDataList.size(),
+                "RoomPriceDataList doesn't contain all room price data");
+    }
+
+    @Test
+    public void testThatHotelParserReturnsAListOfRoomPriceDataWith1Date() {
+        List<RoomPriceData> roomPriceDataList = hotelParser.parseRoomPrices(priceMatrixString1Date);
+        System.out.println(roomPriceDataList);
+        assertFalse(roomPriceDataList.isEmpty(), "RoomPriceDataList is empty");
+        assertEquals(18, roomPriceDataList.size(),
                 "RoomPriceDataList doesn't contain all room price data");
     }
 }
