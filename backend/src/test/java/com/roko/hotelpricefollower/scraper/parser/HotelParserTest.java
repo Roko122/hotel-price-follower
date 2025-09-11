@@ -29,7 +29,6 @@ public class HotelParserTest {
     @Test
     public void testThatHotelParserReturnsAListOfRoomPriceData() {
         List<RoomPriceData> roomPriceDataList = hotelParser.parseRoomPrices(priceMatrixString);
-        System.out.println(roomPriceDataList.size());
         assertFalse(roomPriceDataList.isEmpty(), "RoomPriceDataList is empty");
         assertEquals(76, roomPriceDataList.size(),
                 "RoomPriceDataList doesn't contain all room price data");
