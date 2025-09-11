@@ -9,6 +9,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RoomPriceData {
     private String roomType;
-    private Long priceInEuros;
     private LocalDate departureDate;
+    private ParsedRoomPrice parsedRoomPrice;
 }
