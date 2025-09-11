@@ -11,25 +11,20 @@ import java.time.Duration;
 @Service
 public class HotelScraper {
 
-    private final WebDriver driver;
-
-    public HotelScraper(WebDriver driver) {
-        this.driver = driver;
-    }
-
     public String scrapePriceMatrix(String hotelUrl) throws PriceMatrixNotFoundException {
         return this.getPriceMatrix(hotelUrl);
     }
 
     private String getPriceMatrix(String hotelUrl) {
+        WebDriver driver = ScraperConfig.setupChromeDriver();
         driver.get(hotelUrl);
 
         try {
             //Wait until priceMatrix is loaded
-            WebElement priceMatrix = getWait().until(driver ->
-                    driver.findElement(By.className("tcne-pm-matrix")));
+            WebElement priceMatrix = getWait(driver).until(webDriver ->
+                    webDriver.findElement(By.className("tcne-pm-matrix")));
 
-            closeCookiesPopup();
+            closeCookiesPopup(driver);
             openPriceSummary(priceMatrix);
 
             //return HTML as a String
@@ -41,7 +36,7 @@ public class HotelScraper {
         }
     }
 
-    private void closeCookiesPopup() {
+    private void closeCookiesPopup(WebDriver driver) {
         //Disallow cookies to hide overlay blocking other clicks
         driver.findElement(By.xpath("//button[span[text()='Hylkää kaikki']]")).click();
     }
@@ -50,7 +45,7 @@ public class HotelScraper {
         priceMatrix.findElement(By.className("tcne-pm-price-details__link")).click();
     }
 
-    private Wait<WebDriver> getWait() {
+    private Wait<WebDriver> getWait(WebDriver driver) {
         return new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30L))
                 .pollingEvery(Duration.ofSeconds(5L))
