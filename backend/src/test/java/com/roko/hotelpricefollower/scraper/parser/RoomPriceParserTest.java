@@ -1,6 +1,6 @@
 package com.roko.hotelpricefollower.scraper.parser;
 
-import com.roko.hotelpricefollower.scraper.parser.RoomPriceParser.ParsedRoomPrice;
+import com.roko.hotelpricefollower.scraper.parser.dto.ParsedRoomPrice;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;

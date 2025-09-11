@@ -1,6 +1,6 @@
 package com.roko.hotelpricefollower.scraper.parser;
 
-import lombok.Data;
+import com.roko.hotelpricefollower.scraper.parser.dto.ParsedRoomPrice;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -80,15 +80,4 @@ public class RoomPriceParser {
         return !possibleAdditionalInfo.isEmpty();
     }
 
-    //Helper class
-    @Data
-    public class ParsedRoomPrice {
-        private Long price;
-        private boolean soldOut;
-        private String additionalInformation;
-
-        public ParsedRoomPrice() {
-            this.soldOut = false;
-        }
-    }
 }
