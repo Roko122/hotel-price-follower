@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 public class HotelServiceTest {
 
@@ -16,7 +19,16 @@ public class HotelServiceTest {
 
     @Test
     void testThatGetHotelByIdReturnsAHotel() {
+        //Database contains one test hotel with id 1
         Optional<Hotel> hotel = hotelService.getHotel(1L);
-        System.out.println(hotel.get());
+
+        assertTrue(hotel.isPresent(), "Hotel could not be found");
+        assertEquals(1L, hotel.get().getId(), "Hotel could not be found");
+    }
+
+    @Test
+    void testThatGetHotelByIdReturnsAnEmptyOptionalWhenHotelDoesNotExist() {
+        Optional<Hotel> hotel = hotelService.getHotel(999L);
+        assertTrue(hotel.isEmpty(), "A hotel was found");
     }
 }
