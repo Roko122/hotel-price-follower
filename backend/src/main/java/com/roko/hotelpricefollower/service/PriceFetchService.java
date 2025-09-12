@@ -29,7 +29,7 @@ public class PriceFetchService {
         return priceFetchRepository.save(priceFetch);
     }
 
-    public void savePriceFetch(PriceFetch priceFetch) {
-        priceFetchRepository.save(priceFetch);
+    public PriceFetch savePriceFetch(PriceFetch priceFetch) {
+        return priceFetchRepository.save(priceFetch);
     }
 }
