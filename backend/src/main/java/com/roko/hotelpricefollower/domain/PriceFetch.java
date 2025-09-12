@@ -12,7 +12,11 @@ import java.time.Instant;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "price_fetches")
+@Table(name = "price_fetches",
+        indexes = {
+            @Index(name = "idx_fetch_time", columnList = "fetchTime")
+        }
+    )
 public class PriceFetch {
 
     @Id
