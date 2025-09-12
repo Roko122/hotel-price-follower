@@ -19,13 +19,25 @@ public class PriceFetchServiceTest {
     @Autowired
     private ScrapeProfileRepository scrapeProfileRepository;
 
+    private ScrapeProfile getScrapeProfile() {
+        //Initially, there is one ScrapeProfile in the database with the id 1
+        return scrapeProfileRepository.findById(1L).get();
+    }
+
     @Test
     public void testThatCreatePriceFetchWorks() {
-        //Initially, there is one ScrapeProfile in the database with the id 1
-        ScrapeProfile scrapeProfile = scrapeProfileRepository.findById(1L).get();
-        PriceFetch priceFetch = priceFetchService.createPriceFetch(scrapeProfile);
+        PriceFetch priceFetch = priceFetchService.createPriceFetch(this.getScrapeProfile());
 
         //No entries in database yet, hence expected id is 1
         assertEquals(1L, priceFetch.getId(), "Price fetch id should be 1");
+    }
+
+    @Test
+    public void testThatUpdatePriceFetchWorks() {
+        PriceFetch priceFetch = priceFetchService.createPriceFetch(this.getScrapeProfile());
+        priceFetch.setError("test error");
+        PriceFetch result = priceFetchService.savePriceFetch(priceFetch);
+
+        assertEquals("test error", result.getError(), "Price fetch error should be 'test error'");
     }
 }
