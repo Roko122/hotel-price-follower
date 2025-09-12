@@ -47,6 +47,10 @@ public class ScrapeProfileService {
         }
     }
 
+    public Optional<ScrapeProfile> getScrapeProfile(Long id) {
+        return scrapeProfileRepository.findById(id);
+    }
+
     private void startScrape(ScrapeProfile scrapeProfile) {
         PriceFetch priceFetch = priceFetchService.createPriceFetch(scrapeProfile);
 
