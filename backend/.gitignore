@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 .env
 postgres_data
+html
 
 ### STS ###
 .apt_generated
