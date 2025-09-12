@@ -17,7 +17,7 @@ public class ScrapeProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "scrape_url", nullable = false)
+    @Column(name = "scrape_url", length = 1000, nullable = false)
     private String scrapeUrl;
 
     @Column(name = "duration_weeks", nullable = false)
