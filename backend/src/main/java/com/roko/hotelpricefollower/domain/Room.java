@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(
         name = "rooms",
         indexes = {
-                @Index(name = "idx_uq_hotel_type", columnList = "hotel, type", unique = true)
+                @Index(name = "idx_uq_hotel_type", columnList = "hotel_id, type", unique = true)
         }
 )
  public class Room {

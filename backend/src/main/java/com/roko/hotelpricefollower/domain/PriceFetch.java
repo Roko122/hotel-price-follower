@@ -14,7 +14,7 @@ import java.time.Instant;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Table(name = "price_fetches",
         indexes = {
-            @Index(name = "idx_fetch_time", columnList = "fetchTime")
+            @Index(name = "idx_fetch_time", columnList = "fetch_time")
         }
     )
 public class PriceFetch {
