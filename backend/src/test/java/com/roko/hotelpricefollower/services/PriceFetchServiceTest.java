@@ -8,7 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Instant;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 public class PriceFetchServiceTest {
@@ -39,5 +42,21 @@ public class PriceFetchServiceTest {
         PriceFetch result = priceFetchService.savePriceFetch(priceFetch);
 
         assertEquals("test error", result.getError(), "Price fetch error should be 'test error'");
+    }
+
+    @Test
+    public void testThatSavePriceFetchWorks() {
+        Instant now = Instant.now();
+        PriceFetch priceFetch = PriceFetch.builder()
+                .fetchTime(now)
+                .error("test")
+                .success(false)
+                .scrapeProfile(getScrapeProfile())
+                .build();
+
+        PriceFetch result = priceFetchService.savePriceFetch(priceFetch);
+        assertEquals("test", result.getError(), "Price fetch error should be 'test'");
+        assertEquals(now, result.getFetchTime(), "Price fetch time should be equal");
+        assertFalse(result.isSuccess(), "Price fetch success should be false");
     }
 }
