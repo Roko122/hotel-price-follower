@@ -36,9 +36,14 @@ public class RoomPriceService {
     }
 
     private RoomPrice createRoomPrice(RoomPriceData roomPriceData, Room room, PriceFetch priceFetch) {
+        Long price = roomPriceData.getParsedRoomPrice().getPrice();
+
+        if (price != null) {
+            price *= 100;
+        }
 
         return RoomPrice.builder()
-                .priceInCents(roomPriceData.getParsedRoomPrice().getPrice() * 100)
+                .priceInCents(price)
                 .departureDate(roomPriceData.getDepartureDate())
                 .soldOut(roomPriceData.getParsedRoomPrice().getSoldOut())
                 .additionalInfo(roomPriceData.getParsedRoomPrice().getAdditionalInformation())
