@@ -1,10 +1,7 @@
 package com.roko.hotelpricefollower.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -28,5 +25,6 @@ import org.hibernate.annotations.OnDeleteAction;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private Hotel hotel;
 }

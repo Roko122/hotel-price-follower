@@ -1,10 +1,7 @@
 package com.roko.hotelpricefollower.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -31,9 +28,11 @@ public class RoomPrice {
 
     @JoinColumn(name = "room_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Room room;
 
     @JoinColumn(name = "price_fetch_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private PriceFetch priceFetch;
 }

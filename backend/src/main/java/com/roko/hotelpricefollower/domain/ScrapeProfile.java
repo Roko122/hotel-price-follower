@@ -1,10 +1,7 @@
 package com.roko.hotelpricefollower.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -31,6 +28,7 @@ public class ScrapeProfile {
 
     @JoinColumn(name = "hotel_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Hotel hotel;
 
     @OneToMany(mappedBy = "scrapeProfile", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
