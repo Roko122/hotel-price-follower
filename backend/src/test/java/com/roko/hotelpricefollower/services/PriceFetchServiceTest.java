@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class PriceFetchServiceTest {
@@ -25,6 +25,17 @@ public class PriceFetchServiceTest {
     private ScrapeProfile getScrapeProfile() {
         //Initially, there is one ScrapeProfile in the database with the id 1
         return scrapeProfileRepository.findById(1L).get();
+    }
+
+    private PriceFetch savePriceFetch(Instant time) {
+        PriceFetch priceFetch = PriceFetch.builder()
+                .fetchTime(time)
+                .error("test")
+                .success(false)
+                .scrapeProfile(getScrapeProfile())
+                .build();
+
+        return priceFetchService.savePriceFetch(priceFetch);
     }
 
     @Test
@@ -47,16 +58,31 @@ public class PriceFetchServiceTest {
     @Test
     public void testThatSavePriceFetchWorks() {
         Instant now = Instant.now();
-        PriceFetch priceFetch = PriceFetch.builder()
-                .fetchTime(now)
-                .error("test")
-                .success(false)
-                .scrapeProfile(getScrapeProfile())
-                .build();
+        PriceFetch result = this.savePriceFetch(now);
 
-        PriceFetch result = priceFetchService.savePriceFetch(priceFetch);
+        assertEquals(1L, result.getId(), "Price fetch should have id");
         assertEquals("test", result.getError(), "Price fetch error should be 'test'");
         assertEquals(now, result.getFetchTime(), "Price fetch time should be equal");
         assertFalse(result.isSuccess(), "Price fetch success should be false");
+    }
+
+    @Test
+    public void testThatGetMostRecentPriceFetchWorks() {
+        Instant now = Instant.now();
+        Instant time2 = now.plusSeconds(30);
+        Instant time3 = now.minusSeconds(120);
+        Instant time4 = now.minusSeconds(45);
+
+        this.savePriceFetch(now);
+        this.savePriceFetch(time2);
+        this.savePriceFetch(time3);
+        this.savePriceFetch(time4);
+
+        Optional<PriceFetch> result = priceFetchService.getMostRecentPriceFetch(getScrapeProfile());
+
+        assertTrue(result.isPresent(), "Most recent PriceFetch should be present");
+
+        assertEquals(time2.getEpochSecond(), result.get().getFetchTime().getEpochSecond(),
+                "Price fetch time should be equal");
     }
 }
