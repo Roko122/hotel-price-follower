@@ -60,9 +60,10 @@ public class ScrapeProfileService {
 
             roomPriceService.saveRoomPrices(roomPriceDataList, scrapeProfile.getHotel(), priceFetch);
             priceFetch.setSuccess(true);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             priceFetch.setSuccess(false);
-            priceFetch.setError(e.getMessage());
+            priceFetch.setError(exception.getMessage());
+            throw exception;
         } finally {
             priceFetchService.savePriceFetch(priceFetch);
         }
