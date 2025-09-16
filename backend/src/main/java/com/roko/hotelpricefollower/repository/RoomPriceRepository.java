@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -58,4 +59,17 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
                                        @Param("roomId") Long roomId,
                                        @Param("profileId") Long profileId,
                                        Limit limit);
+
+    @Query("""
+        SELECT rp
+        FROM RoomPrice rp
+        JOIN FETCH rp.priceFetch pf
+        WHERE pf.scrapeProfile.id = :profileId
+            AND rp.room.id = :roomId
+            AND rp.departureDate = :departureDate
+        ORDER BY pf.fetchTime ASC
+    """)
+    List<RoomPrice> findAllPricesByDepartureDate(@Param("departureDate") LocalDate departureDate,
+                                                 @Param("roomId") Long roomId,
+                                                 @Param("profileId") Long profileId);
 }
