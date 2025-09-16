@@ -9,7 +9,13 @@ import java.util.Objects;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "room_prices")
+@Table(
+        name = "room_prices",
+        indexes = {
+                @Index(name = "idx_price", columnList = "price_in_cents"),
+                @Index(name = "idx_departure_date", columnList = "departure_date")
+        }
+)
 public class RoomPrice {
 
     @Id
