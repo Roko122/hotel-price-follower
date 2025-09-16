@@ -22,10 +22,10 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND rp.departureDate = :departureDate
         ORDER BY pf.fetchTime DESC
     """)
-    RoomPrice getMostRecentPrice(@Param("departureDate") LocalDate departureDate,
-                                 @Param("roomId") Long roomId,
-                                 @Param("profileId") Long profileId,
-                                 Limit limit);
+    RoomPrice findMostRecentPrice(@Param("departureDate") LocalDate departureDate,
+                                  @Param("roomId") Long roomId,
+                                  @Param("profileId") Long profileId,
+                                  Limit limit);
 
     @Query("""
         SELECT rp
@@ -37,10 +37,24 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND pf.fetchTime BETWEEN :from AND :to
         ORDER BY rp.priceInCents ASC
     """)
-    RoomPrice getMin30DaysPrice(@Param("departureDate") LocalDate departureDate,
-                                @Param("roomId") Long roomId,
-                                @Param("profileId") Long profileId,
-                                @Param("from") Instant from,
-                                @Param("to") Instant to,
-                                Limit limit);
+    RoomPrice findMin30DaysPrice(@Param("departureDate") LocalDate departureDate,
+                                 @Param("roomId") Long roomId,
+                                 @Param("profileId") Long profileId,
+                                 @Param("from") Instant from,
+                                 @Param("to") Instant to,
+                                 Limit limit);
+
+    @Query("""
+        SELECT rp
+        FROM RoomPrice rp
+        JOIN FETCH rp.priceFetch pf
+        WHERE pf.scrapeProfile.id = :profileId
+            AND rp.room.id = :roomId
+            AND rp.departureDate = :departureDate
+        ORDER BY rp.priceInCents ASC
+    """)
+    RoomPrice findAllTimeMin(@Param("departureDate") LocalDate departureDate,
+                             @Param("roomId") Long roomId,
+                             @Param("profileId") Long profileId,
+                             Limit limit);
 }
