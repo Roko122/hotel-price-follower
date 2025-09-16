@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Table(name = "room_prices")
 public class RoomPrice {
 
@@ -28,11 +30,32 @@ public class RoomPrice {
 
     @JoinColumn(name = "room_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
     private Room room;
 
     @JoinColumn(name = "price_fetch_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
     private PriceFetch priceFetch;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RoomPrice roomPrice = (RoomPrice) o;
+        return soldOut == roomPrice.soldOut && Objects.equals(id, roomPrice.id) && Objects.equals(priceInCents, roomPrice.priceInCents) && Objects.equals(departureDate, roomPrice.departureDate) && Objects.equals(additionalInfo, roomPrice.additionalInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, priceInCents, departureDate, soldOut, additionalInfo);
+    }
+
+    @Override
+    public String toString() {
+        return "RoomPrice{" +
+                "id=" + id +
+                ", priceInCents=" + priceInCents +
+                ", departureDate=" + departureDate +
+                ", soldOut=" + soldOut +
+                ", additionalInfo='" + additionalInfo + '\'' +
+                '}';
+    }
 }

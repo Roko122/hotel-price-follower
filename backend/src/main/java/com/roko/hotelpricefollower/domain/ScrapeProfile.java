@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Table(name = "scrape_profiles")
 public class ScrapeProfile {
 
@@ -28,9 +30,31 @@ public class ScrapeProfile {
 
     @JoinColumn(name = "hotel_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
     private Hotel hotel;
 
     @OneToMany(mappedBy = "scrapeProfile", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<PriceFetch> priceFetches;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ScrapeProfile that = (ScrapeProfile) o;
+        return durationWeeks == that.durationWeeks && adults == that.adults && children == that.children && Objects.equals(id, that.id) && Objects.equals(scrapeUrl, that.scrapeUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, scrapeUrl, durationWeeks, adults, children);
+    }
+
+    @Override
+    public String toString() {
+        return "ScrapeProfile{" +
+                "id=" + id +
+                ", scrapeUrl='" + scrapeUrl + '\'' +
+                ", durationWeeks=" + durationWeeks +
+                ", adults=" + adults +
+                ", children=" + children +
+                '}';
+    }
 }
