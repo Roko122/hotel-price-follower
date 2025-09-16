@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
@@ -22,7 +23,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND rp.departureDate = :departureDate
         ORDER BY pf.fetchTime DESC
     """)
-    RoomPrice findMostRecentPrice(@Param("departureDate") LocalDate departureDate,
+    Optional<RoomPrice> findMostRecentPrice(@Param("departureDate") LocalDate departureDate,
                                   @Param("roomId") Long roomId,
                                   @Param("profileId") Long profileId,
                                   Limit limit);
@@ -37,7 +38,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND pf.fetchTime BETWEEN :from AND :to
         ORDER BY rp.priceInCents ASC
     """)
-    RoomPrice findMin30DaysPrice(@Param("departureDate") LocalDate departureDate,
+    Optional<RoomPrice> findMin30DaysPrice(@Param("departureDate") LocalDate departureDate,
                                  @Param("roomId") Long roomId,
                                  @Param("profileId") Long profileId,
                                  @Param("from") Instant from,
@@ -53,8 +54,8 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND rp.departureDate = :departureDate
         ORDER BY rp.priceInCents ASC
     """)
-    RoomPrice findAllTimeMin(@Param("departureDate") LocalDate departureDate,
-                             @Param("roomId") Long roomId,
-                             @Param("profileId") Long profileId,
-                             Limit limit);
+    Optional<RoomPrice> findAllTimeMin(@Param("departureDate") LocalDate departureDate,
+                                       @Param("roomId") Long roomId,
+                                       @Param("profileId") Long profileId,
+                                       Limit limit);
 }
