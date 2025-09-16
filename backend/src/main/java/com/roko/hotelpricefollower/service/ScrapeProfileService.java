@@ -6,10 +6,10 @@ import com.roko.hotelpricefollower.repository.ScrapeProfileRepository;
 import com.roko.hotelpricefollower.scraper.HotelScraper;
 import com.roko.hotelpricefollower.scraper.parser.HotelParser;
 import com.roko.hotelpricefollower.scraper.parser.dto.RoomPriceData;
+import com.roko.hotelpricefollower.util.DateTimeUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,8 +70,8 @@ public class ScrapeProfileService {
     }
 
     private boolean scrapedToday(PriceFetch priceFetch) {
-        LocalDate now = LocalDate.now(ZoneId.of("Europe/Helsinki"));
-        LocalDate lastFetchDate = priceFetch.getFetchTime().atZone(ZoneId.of("Europe/Helsinki")).toLocalDate();
+        LocalDate now = LocalDate.now(DateTimeUtil.zoneIdHelsinki());
+        LocalDate lastFetchDate = DateTimeUtil.toLocalDate(priceFetch.getFetchTime());
 
         return now.isEqual(lastFetchDate);
     }
