@@ -1,6 +1,7 @@
 package com.roko.hotelpricefollower.repository;
 
 import com.roko.hotelpricefollower.domain.RoomPrice;
+import com.roko.hotelpricefollower.dto.RoomPriceDto;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -61,15 +62,19 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
                                        Limit limit);
 
     @Query("""
-        SELECT rp
+        SELECT new com.roko.hotelpricefollower.dto.RoomPriceDto(
+            rp.priceInCents,
+            pf.fetchTime
+        )
         FROM RoomPrice rp
-        JOIN FETCH rp.priceFetch pf
+        JOIN rp.priceFetch pf
         WHERE pf.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
+            AND rp.priceInCents IS NOT NULL
         ORDER BY pf.fetchTime ASC
     """)
-    List<RoomPrice> findAllPricesByDepartureDate(@Param("departureDate") LocalDate departureDate,
-                                                 @Param("roomId") Long roomId,
-                                                 @Param("profileId") Long profileId);
+    List<RoomPriceDto> findAllPricesByDepartureDate(@Param("departureDate") LocalDate departureDate,
+                                                    @Param("roomId") Long roomId,
+                                                    @Param("profileId") Long profileId);
 }
