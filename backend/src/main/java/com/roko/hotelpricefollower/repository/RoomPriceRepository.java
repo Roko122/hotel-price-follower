@@ -36,7 +36,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
             AND pf.fetchTime BETWEEN :from AND :to
-        ORDER BY rp.priceInCents ASC
+        ORDER BY rp.priceInCents ASC, pf.fetchTime DESC
     """)
     Optional<RoomPrice> findMin30DaysPrice(@Param("departureDate") LocalDate departureDate,
                                  @Param("roomId") Long roomId,
@@ -52,7 +52,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         WHERE pf.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
-        ORDER BY rp.priceInCents ASC
+        ORDER BY rp.priceInCents ASC, pf.fetchTime DESC
     """)
     Optional<RoomPrice> findAllTimeMin(@Param("departureDate") LocalDate departureDate,
                                        @Param("roomId") Long roomId,
