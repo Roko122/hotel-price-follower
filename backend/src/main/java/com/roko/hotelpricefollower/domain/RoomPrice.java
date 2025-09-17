@@ -19,7 +19,7 @@ import java.util.Objects;
 public class RoomPrice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_price_seq")
     private Long id;
 
     @Column(name = "price_in_cents", precision = 6, scale = 0)

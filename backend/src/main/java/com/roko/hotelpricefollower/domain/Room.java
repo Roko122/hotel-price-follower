@@ -20,7 +20,7 @@ import java.util.Objects;
  public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_seq")
     private Long id;
 
     @Column(name = "type", nullable = false)
