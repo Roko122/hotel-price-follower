@@ -4,6 +4,9 @@ spring.datasource.username=
 spring.datasource.password=
 
 spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.properties.hibernate.jdbc.batch_size=40
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.order_updates=true
 
 # For debugging (N+1)
 spring.jpa.show-sql=true
