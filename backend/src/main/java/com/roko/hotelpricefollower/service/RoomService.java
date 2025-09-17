@@ -5,6 +5,8 @@ import com.roko.hotelpricefollower.domain.Room;
 import com.roko.hotelpricefollower.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomService {
 
@@ -14,16 +16,11 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    public Room getOrCreateRoom(Hotel hotel, String roomType) {
-        return roomRepository.findByHotelAndType(hotel, roomType)
-                .orElseGet(() -> {
-                    Room room = Room.builder()
-                            .hotel(hotel)
-                            .type(roomType)
-                            .build();
+    public List<Room> findAllRoomsOfHotel(Hotel hotel) {
+        return roomRepository.findAllByHotel(hotel);
+    }
 
-                    roomRepository.save(room);
-                    return room;
-                });
+    public List<Room> saveRooms(List<Room> roomsToSave) {
+        return roomRepository.saveAll(roomsToSave);
     }
 }
