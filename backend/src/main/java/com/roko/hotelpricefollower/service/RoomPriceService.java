@@ -17,9 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomPriceService {
@@ -42,9 +41,11 @@ public class RoomPriceService {
 
     @Transactional
     public void saveRoomPrices(List<RoomPriceData> roomPriceDataList, Hotel hotel, PriceFetch priceFetch) {
+        Map<String, Room> rooms = getRooms(roomPriceDataList, hotel);
+
         List<RoomPrice> roomPrices = new ArrayList<>();
         for (RoomPriceData roomPriceData : roomPriceDataList) {
-            Room room = roomService.getOrCreateRoom(hotel, roomPriceData.getRoomType());
+            Room room = rooms.get(roomPriceData.getRoomType());
 
             RoomPrice roomPrice = createRoomPrice(roomPriceData, room, priceFetch);
             roomPrices.add(roomPrice);
@@ -80,6 +81,24 @@ public class RoomPriceService {
         roomPriceValidator.validateRequest(hotelId, roomId, profileId);
 
         return roomPriceRepository.findAllPricesByDepartureDate(departureDate, roomId, profileId);
+    }
+
+    private Map<String, Room> getRooms(List<RoomPriceData> roomPriceDataList, Hotel hotel) {
+        Map<String, Room> existingRooms = roomService.findAllRoomsOfHotel(hotel)
+                .stream()
+                .collect(Collectors.toMap(Room::getType, room -> room));
+
+        List<Room> roomsToSave = roomPriceDataList.stream()
+                .map(RoomPriceData::getRoomType)
+                .distinct()
+                .filter(roomType -> !existingRooms.containsKey(roomType))
+                .map(roomType -> Room.builder().type(roomType).hotel(hotel).build())
+                .toList();
+
+        roomService.saveRooms(roomsToSave)
+                .forEach(room -> existingRooms.put(room.getType(), room));
+
+        return existingRooms;
     }
 
     private RoomPrice createRoomPrice(RoomPriceData roomPriceData, Room room, PriceFetch priceFetch) {
