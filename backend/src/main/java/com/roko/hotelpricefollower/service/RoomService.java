@@ -23,4 +23,17 @@ public class RoomService {
     public List<Room> saveRooms(List<Room> roomsToSave) {
         return roomRepository.saveAll(roomsToSave);
     }
+
+    public Room getOrCreateRoom(Hotel hotel, String roomType) {
+        return roomRepository.findByHotelAndType(hotel, roomType)
+                .orElseGet(() -> {
+                    Room room = Room.builder()
+                            .hotel(hotel)
+                            .type(roomType)
+                            .build();
+
+                    roomRepository.save(room);
+                    return room;
+                });
+    }
 }
