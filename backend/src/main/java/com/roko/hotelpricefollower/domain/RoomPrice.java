@@ -20,6 +20,7 @@ public class RoomPrice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_price_seq")
+    @SequenceGenerator(name = "room_price_seq", sequenceName = "room_price_seq", allocationSize = 40)
     private Long id;
 
     @Column(name = "price_in_cents", precision = 6, scale = 0)

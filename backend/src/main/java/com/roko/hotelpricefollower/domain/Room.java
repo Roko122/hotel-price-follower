@@ -21,6 +21,7 @@ import java.util.Objects;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_seq")
+    @SequenceGenerator(name = "room_seq", sequenceName = "room_seq", allocationSize = 40)
     private Long id;
 
     @Column(name = "type", nullable = false)
