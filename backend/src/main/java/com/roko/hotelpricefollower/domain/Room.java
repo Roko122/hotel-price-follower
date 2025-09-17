@@ -13,7 +13,8 @@ import java.util.Objects;
 @Table(
         name = "rooms",
         indexes = {
-                @Index(name = "idx_uq_hotel_type", columnList = "hotel_id, type", unique = true)
+                @Index(name = "idx_uq_hotel_type", columnList = "hotel_id, type", unique = true),
+                @Index(name = "idx_hotel_id", columnList = "hotel_id")
         }
 )
  public class Room {
