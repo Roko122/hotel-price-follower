@@ -57,4 +57,9 @@ public class PriceFetch {
                 ", error='" + error + '\'' +
                 '}';
     }
+
+    @PrePersist
+    private void setFetchTime() {
+        this.fetchTime = Instant.now();
+    }
 }
