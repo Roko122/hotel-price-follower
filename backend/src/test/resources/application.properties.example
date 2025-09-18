@@ -2,5 +2,7 @@ spring.datasource.url=jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;
 spring.datasource.username=sa
 spring.datasource.password=password
 
+spring.jpa.show-sql=true
+
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.defer-datasource-initialization=true
