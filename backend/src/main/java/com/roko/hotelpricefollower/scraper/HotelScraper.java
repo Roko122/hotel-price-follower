@@ -1,6 +1,6 @@
 package com.roko.hotelpricefollower.scraper;
 
-import com.roko.hotelpricefollower.exception.PriceMatrixNotFoundException;
+import com.roko.hotelpricefollower.exception.NotFoundException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -11,7 +11,7 @@ import java.time.Duration;
 @Service
 public class HotelScraper {
 
-    public String scrapePriceMatrix(String hotelUrl) throws PriceMatrixNotFoundException {
+    public String scrapePriceMatrix(String hotelUrl) {
         return this.getPriceMatrix(hotelUrl);
     }
 
@@ -30,7 +30,7 @@ public class HotelScraper {
             //return HTML as a String
             return priceMatrix.getDomProperty("outerHTML");
         } catch (TimeoutException e) {
-            throw new PriceMatrixNotFoundException("Could not find price matrix, please try again later.\n" + hotelUrl);
+            throw new NotFoundException("Could not find price matrix, please try again later.\n" + hotelUrl);
         } finally {
             driver.quit();
         }

@@ -12,13 +12,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> hotelOrRoomNotFound(NotFoundException ex) {
-        return Map.of("error", ex.getMessage());
-    }
-
-    @ExceptionHandler(PriceMatrixNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> priceMatrixNotFound(PriceMatrixNotFoundException ex) {
+    public Map<String, String> entityNotFound(NotFoundException ex) {
         return Map.of("error", ex.getMessage());
     }
 }
