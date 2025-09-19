@@ -3,6 +3,7 @@ package com.roko.hotelpricefollower.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +19,9 @@ public class ScrapeProfile {
 
     @Column(name = "scrape_url", length = 1000, nullable = false)
     private String scrapeUrl;
+
+    @Column(name = "first_departure_date", nullable = false)
+    private LocalDate firstDepartureDate;
 
     @Column(name = "duration_weeks", nullable = false)
     private int durationWeeks;

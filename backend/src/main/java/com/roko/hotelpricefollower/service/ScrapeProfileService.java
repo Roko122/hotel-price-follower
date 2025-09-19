@@ -36,14 +36,21 @@ public class ScrapeProfileService {
 
     public void startScrapes() {
         List<ScrapeProfile> scrapeProfiles = scrapeProfileRepository.findAll();
+        LocalDate now = LocalDate.now();
 
         for (ScrapeProfile scrapeProfile : scrapeProfiles) {
-            Optional<PriceFetch> mostRecentPriceFetch = priceFetchService.getMostRecentPriceFetch(scrapeProfile);
-
-            //check if prices has been fetched today, if not -> scrape prices
-            if (!mostRecentPriceFetch.map(this::scrapedToday).orElse(false)) {
-                startScrape(scrapeProfile);
+            //check if departure date is in the past
+            if (scrapeProfile.getFirstDepartureDate().isBefore(now)) {
+                continue; //scrape_url is not working anymore
             }
+
+            Optional<PriceFetch> mostRecentPriceFetch = priceFetchService.getMostRecentPriceFetch(scrapeProfile);
+            //check if prices has been fetched today
+            if (mostRecentPriceFetch.map(this::scrapedToday).orElse(false)) {
+                continue; //prices already fetched today
+            }
+
+            startScrape(scrapeProfile);
         }
     }
 
