@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -39,9 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                if (userDetails instanceof CustomUserDetails) {
-                    request.setAttribute("userId", ((CustomUserDetails) userDetails).getId());
-                }
+                getCustomUserDetails(userDetails)
+                        .map(CustomUserDetails::getId)
+                        .ifPresent(id -> request.setAttribute("userId", id));
             }
         } catch (Exception e) {
             log.warn("Received invalid auth token");
@@ -57,5 +58,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return null;
+    }
+
+    private Optional<CustomUserDetails> getCustomUserDetails(UserDetails userDetails) {
+        if (userDetails instanceof CustomUserDetails customUserDetails) {
+            return Optional.of(customUserDetails);
+        }
+
+        return Optional.empty();
     }
 }
