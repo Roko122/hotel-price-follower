@@ -35,7 +35,7 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleBadCredentialExceptionException(NotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleBadCredentialExceptionException(BadCredentialsException ex) {
         ErrorResponse error = ErrorResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message("Incorrect username or password")
