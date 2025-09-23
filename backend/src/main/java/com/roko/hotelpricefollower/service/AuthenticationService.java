@@ -1,5 +1,6 @@
 package com.roko.hotelpricefollower.service;
 
+import com.roko.hotelpricefollower.exception.ExpiredTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -41,7 +42,7 @@ public class AuthenticationService {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
+                .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration * 1000))
                 .signWith(getSigningKey())
                 .compact();
@@ -58,6 +59,10 @@ public class AuthenticationService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+
+        if (claims.getExpiration().before(new Date()) ) {
+            throw new ExpiredTokenException("Expired token");
+        }
 
         return claims.getSubject();
     }
