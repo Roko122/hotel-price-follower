@@ -10,3 +10,6 @@ spring.jpa.properties.hibernate.order_updates=true
 
 scrape.schedule.cron=0 0 12 * * ?
 scrape.schedule.zone=Europe/Helsinki
+
+jwt.secret=
+jwt.expire-time=
