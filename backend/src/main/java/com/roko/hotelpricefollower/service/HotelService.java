@@ -23,4 +23,13 @@ public class HotelService {
     public List<HotelDto> getHotels() {
         return hotelRepository.findAllHotelDto();
     }
+
+    public Hotel createHotel(Hotel hotelToCreate) {
+        //check if hotel already exists with given name
+        if (hotelRepository.existsByName(hotelToCreate.getName())) {
+            throw new IllegalArgumentException("Hotel with name " + hotelToCreate.getName() + " already exists");
+        }
+
+        return hotelRepository.save(hotelToCreate);
+    }
 }
