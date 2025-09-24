@@ -60,6 +60,8 @@ public class PriceFetch {
 
     @PrePersist
     private void setFetchTime() {
-        this.fetchTime = Instant.now();
+        if (this.fetchTime == null) {
+            this.fetchTime = Instant.now();
+        }
     }
 }
