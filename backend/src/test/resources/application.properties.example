@@ -2,7 +2,15 @@ spring.datasource.url=jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;
 spring.datasource.username=sa
 spring.datasource.password=password
 
-spring.jpa.show-sql=true
-
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.defer-datasource-initialization=true
+spring.jpa.properties.hibernate.jdbc.batch_size=40
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.order_updates=true
+spring.jpa.show-sql=true
+
+scrape.schedule.cron=0 0 12 * * ?
+scrape.schedule.zone=Europe/Helsinki
+
+jwt.secret=this-is-the-secret-key-dont-use-this-in-production-because-this-is-not-random
+jwt.expire-time=86400
