@@ -5,6 +5,7 @@ import com.roko.hotelpricefollower.dto.CreateHotelRequest;
 import com.roko.hotelpricefollower.dto.HotelDto;
 import com.roko.hotelpricefollower.mapper.HotelMapper;
 import com.roko.hotelpricefollower.service.HotelService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<HotelDto> createHotel(@RequestBody CreateHotelRequest createHotelRequest) {
+    public ResponseEntity<HotelDto> createHotel(@Valid @RequestBody CreateHotelRequest createHotelRequest) {
         Hotel hotelToCreate = hotelMapper.toHotel(createHotelRequest);
         Hotel createdHotel = hotelService.createHotel(hotelToCreate);
 
