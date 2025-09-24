@@ -1,5 +1,5 @@
-INSERT INTO hotels (id, name)
-    VALUES (1, 'Sunprime Ocean View');
+INSERT INTO hotels (name)
+    VALUES ('Sunprime Ocean View');
 
 INSERT INTO scrape_profiles (scrape_url, first_departure_date, duration_weeks, adults, children, hotel_id)
     VALUES (
