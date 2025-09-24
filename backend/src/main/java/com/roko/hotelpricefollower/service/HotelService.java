@@ -27,7 +27,7 @@ public class HotelService {
     public Hotel createHotel(Hotel hotelToCreate) {
         //check if hotel already exists with given name
         if (hotelRepository.existsByName(hotelToCreate.getName())) {
-            throw new IllegalArgumentException("Hotel with name " + hotelToCreate.getName() + " already exists");
+            throw new IllegalArgumentException("Hotel with name '" + hotelToCreate.getName() + "' already exists");
         }
 
         return hotelRepository.save(hotelToCreate);
