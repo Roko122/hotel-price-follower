@@ -2,6 +2,7 @@ package com.roko.hotelpricefollower.config;
 
 import com.roko.hotelpricefollower.security.JwtAuthenticationFilter;
 import com.roko.hotelpricefollower.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,14 +33,21 @@ public class SecurityConfig {
             JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 
         http
+                .csrf(csfr -> csfr.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/hotels/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/hotels/**").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/api/v1/profiles/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/profiles/**").hasRole("USER")
                         .anyRequest().hasRole("ADMIN")
                 )
-                .csrf(csfr -> csfr.disable())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((_, res, _)
+                                -> res.setStatus(HttpServletResponse.SC_UNAUTHORIZED))
+                        .accessDeniedHandler((_, res, _)
+                                -> res.setStatus(HttpServletResponse.SC_FORBIDDEN))
+                )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
