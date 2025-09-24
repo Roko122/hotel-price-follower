@@ -20,4 +20,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
         FROM Hotel h
     """)
     List<HotelDto> findAllHotelDto();
+
+
+    boolean existsByName(String name);
 }
