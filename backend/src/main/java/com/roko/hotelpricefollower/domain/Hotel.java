@@ -19,7 +19,7 @@ public class Hotel {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
 
     @OneToMany(mappedBy = "hotel", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
