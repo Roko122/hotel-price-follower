@@ -32,6 +32,9 @@ public class ScrapeProfile {
     @Column(name = "children", nullable = false)
     private int children;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     @JoinColumn(name = "hotel_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
