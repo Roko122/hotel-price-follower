@@ -8,6 +8,7 @@ import com.roko.hotelpricefollower.scraper.parser.HotelParser;
 import com.roko.hotelpricefollower.scraper.parser.dto.RoomPriceData;
 import com.roko.hotelpricefollower.util.DateTimeUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,13 +35,21 @@ public class ScrapeProfileService {
         this.roomPriceService = roomPriceService;
     }
 
+    @Transactional
     public void startScrapes() {
         List<ScrapeProfile> scrapeProfiles = scrapeProfileRepository.findAll();
         LocalDate now = LocalDate.now();
 
         for (ScrapeProfile scrapeProfile : scrapeProfiles) {
+            //check if scrapeProfile is active
+            if (!scrapeProfile.isActive()) {
+                continue;
+            }
+
             //check if departure date is in the past
             if (scrapeProfile.getFirstDepartureDate().isBefore(now)) {
+                scrapeProfile.setActive(false);
+                scrapeProfileRepository.save(scrapeProfile);
                 continue; //scrape_url is not working anymore
             }
 
