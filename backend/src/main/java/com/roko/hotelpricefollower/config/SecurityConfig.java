@@ -38,8 +38,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/hotels/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/hotels/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/profiles/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/profiles/**").hasRole("USER")
                         .anyRequest().hasRole("ADMIN")
                 )
                 .exceptionHandling(exception -> exception
