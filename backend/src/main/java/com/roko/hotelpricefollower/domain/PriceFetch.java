@@ -32,9 +32,9 @@ public class PriceFetch {
     private String error;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scrape_profile_id", nullable = false)
+    @JoinColumn(name = "scrape_task_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private ScrapeProfile scrapeProfile;
+    private ScrapeTask scrapeTask;
 
     @Override
     public boolean equals(Object o) {

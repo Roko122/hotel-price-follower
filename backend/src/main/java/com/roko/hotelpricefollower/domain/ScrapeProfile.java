@@ -3,8 +3,6 @@ package com.roko.hotelpricefollower.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,51 +15,39 @@ public class ScrapeProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "scrape_url", length = 1000, nullable = false)
-    private String scrapeUrl;
-
-    @Column(name = "first_departure_date", nullable = false)
-    private LocalDate firstDepartureDate;
-
     @Column(name = "duration_weeks", nullable = false)
-    private int durationWeeks;
+    private Integer durationWeeks;
 
     @Column(name = "adults", nullable = false)
-    private int adults;
+    private Integer adults;
 
     @Column(name = "children", nullable = false)
-    private int children;
-
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    private Integer children;
 
     @JoinColumn(name = "hotel_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
 
-    @OneToMany(mappedBy = "scrapeProfile", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<PriceFetch> priceFetches;
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ScrapeProfile that = (ScrapeProfile) o;
-        return durationWeeks == that.durationWeeks && adults == that.adults && children == that.children && Objects.equals(id, that.id) && Objects.equals(scrapeUrl, that.scrapeUrl);
+        return Objects.equals(id, that.id) && Objects.equals(durationWeeks, that.durationWeeks) && Objects.equals(adults, that.adults) && Objects.equals(children, that.children);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, scrapeUrl, durationWeeks, adults, children);
+        return Objects.hash(id, durationWeeks, adults, children);
     }
 
     @Override
     public String toString() {
         return "ScrapeProfile{" +
                 "id=" + id +
-                ", scrapeUrl='" + scrapeUrl + '\'' +
                 ", durationWeeks=" + durationWeeks +
                 ", adults=" + adults +
                 ", children=" + children +
+                ", hotel=" + hotel +
                 '}';
     }
 }
