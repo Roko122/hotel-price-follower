@@ -6,6 +6,7 @@ import com.roko.hotelpricefollower.dto.HotelDto;
 import com.roko.hotelpricefollower.mapper.HotelMapper;
 import com.roko.hotelpricefollower.service.HotelService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,6 @@ public class HotelController {
         Hotel hotelToCreate = hotelMapper.toHotel(createHotelRequest);
         Hotel createdHotel = hotelService.createHotel(hotelToCreate);
 
-        return ResponseEntity.ok(hotelMapper.toHotelDto(createdHotel));
+        return new ResponseEntity<>(hotelMapper.toHotelDto(createdHotel), HttpStatus.CREATED);
     }
 }
