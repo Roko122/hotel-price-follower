@@ -12,7 +12,7 @@ public record CreateHotelRequest(
                 message = "Hotel name can only contain letters, numbers, spaces, hyphens and apostrophes")
         String name,
 
-        @URL
+        @URL(message = "Invalid URL format")
         @Pattern(
                 regexp = "^https://img\\.tjareborg\\.fi/image/upload/[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;%=]+$",
                 message = "URL must start with https://img.tjareborg.fi/image/upload/ and contain only valid URL characters"
