@@ -1,8 +1,8 @@
 package com.roko.hotelpricefollower.service;
 
 import com.roko.hotelpricefollower.domain.PriceFetch;
-import com.roko.hotelpricefollower.domain.ScrapeProfile;
-import com.roko.hotelpricefollower.repository.ScrapeProfileRepository;
+import com.roko.hotelpricefollower.domain.ScrapeTask;
+import com.roko.hotelpricefollower.repository.ScrapeTaskRepository;
 import com.roko.hotelpricefollower.scraper.HotelScraper;
 import com.roko.hotelpricefollower.scraper.parser.HotelParser;
 import com.roko.hotelpricefollower.scraper.parser.dto.RoomPriceData;
@@ -15,66 +15,58 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ScrapeProfileService {
-    private final ScrapeProfileRepository scrapeProfileRepository;
+public class ScrapeTaskService {
     private final PriceFetchService priceFetchService;
     private final HotelScraper hotelScraper;
     private final HotelParser hotelParser;
     private final RoomPriceService roomPriceService;
+    private final ScrapeTaskRepository scrapeTaskRepository;
 
-    public ScrapeProfileService(ScrapeProfileRepository scrapeProfileRepository,
-                                PriceFetchService priceFetchService,
-                                HotelScraper hotelScraper,
-                                HotelParser hotelParser,
-                                RoomPriceService roomPriceService) {
+    public ScrapeTaskService(
+            PriceFetchService priceFetchService,
+            HotelScraper hotelScraper,
+            HotelParser hotelParser,
+            RoomPriceService roomPriceService,
+            ScrapeTaskRepository scrapeTaskRepository) {
 
-        this.scrapeProfileRepository = scrapeProfileRepository;
+
         this.priceFetchService = priceFetchService;
         this.hotelScraper = hotelScraper;
         this.hotelParser = hotelParser;
         this.roomPriceService = roomPriceService;
+        this.scrapeTaskRepository = scrapeTaskRepository;
     }
 
     @Transactional
     public void startScrapes() {
-        List<ScrapeProfile> scrapeProfiles = scrapeProfileRepository.findAll();
+        List<ScrapeTask> scrapeTasks = scrapeTaskRepository.findAll();
         LocalDate now = LocalDate.now();
 
-        for (ScrapeProfile scrapeProfile : scrapeProfiles) {
-            //check if scrapeProfile is active
-            if (!scrapeProfile.isActive()) {
-                continue;
-            }
+        for (ScrapeTask scrapeTask : scrapeTasks) {
 
             //check if departure date is in the past
-            if (scrapeProfile.getFirstDepartureDate().isBefore(now)) {
-                scrapeProfile.setActive(false);
-                scrapeProfileRepository.save(scrapeProfile);
+            if (scrapeTask.getFirstDepartureDate().isBefore(now)) {
                 continue; //scrape_url is not working anymore
             }
 
-            Optional<PriceFetch> mostRecentPriceFetch = priceFetchService.getMostRecentPriceFetch(scrapeProfile);
+            Optional<PriceFetch> mostRecentPriceFetch = priceFetchService.getMostRecentPriceFetch(scrapeTask);
             //check if prices has been fetched today
             if (mostRecentPriceFetch.map(this::scrapedToday).orElse(false)) {
                 continue; //prices already fetched today
             }
 
-            startScrape(scrapeProfile);
+            startScrape(scrapeTask);
         }
     }
 
-    public Optional<ScrapeProfile> getScrapeProfile(Long id) {
-        return scrapeProfileRepository.findById(id);
-    }
-
-    private void startScrape(ScrapeProfile scrapeProfile) {
-        PriceFetch priceFetch = priceFetchService.createPriceFetch(scrapeProfile);
+    private void startScrape(ScrapeTask scrapeTask) {
+        PriceFetch priceFetch = priceFetchService.createPriceFetch(scrapeTask);
 
         try {
-            String priceMatrix = fetchPriceMatrix(scrapeProfile.getScrapeUrl());
+            String priceMatrix = fetchPriceMatrix(scrapeTask.getScrapeUrl());
             List<RoomPriceData> roomPriceDataList = parseRoomPrices(priceMatrix);
 
-            roomPriceService.saveRoomPrices(roomPriceDataList, scrapeProfile.getHotel(), priceFetch);
+            roomPriceService.saveRoomPrices(roomPriceDataList, scrapeTask.getScrapeProfile().getHotel(), priceFetch);
             priceFetch.setSuccess(true);
         } catch (Exception exception) {
             priceFetch.setSuccess(false);

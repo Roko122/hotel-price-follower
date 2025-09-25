@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScrapeProfileSchedulerService {
 
-    private final ScrapeProfileService scrapeProfileService;
+    private final ScrapeTaskService scrapeTaskService;
 
-    public ScrapeProfileSchedulerService(ScrapeProfileService scrapeProfileService) {
-        this.scrapeProfileService = scrapeProfileService;
+    public ScrapeProfileSchedulerService(ScrapeTaskService scrapeTaskService) {
+        this.scrapeTaskService = scrapeTaskService;
     }
 
     @Scheduled(cron = "${scrape.schedule.cron}", zone = "${scrape.schedule.zone}")
     public void scrapeOnceADay() {
-        scrapeProfileService.startScrapes();
+        scrapeTaskService.startScrapes();
     }
 }

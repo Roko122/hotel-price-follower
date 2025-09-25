@@ -1,7 +1,7 @@
 package com.roko.hotelpricefollower.service;
 
 import com.roko.hotelpricefollower.domain.PriceFetch;
-import com.roko.hotelpricefollower.domain.ScrapeProfile;
+import com.roko.hotelpricefollower.domain.ScrapeTask;
 import com.roko.hotelpricefollower.repository.PriceFetchRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ public class PriceFetchService {
         this.priceFetchRepository = priceFetchRepository;
     }
 
-    public Optional<PriceFetch> getMostRecentPriceFetch(ScrapeProfile scrapeProfile) {
-        return priceFetchRepository.findFirstByScrapeProfileOrderByFetchTimeDesc(scrapeProfile);
+    public Optional<PriceFetch> getMostRecentPriceFetch(ScrapeTask scrapeTask) {
+        return priceFetchRepository.findFirstByScrapeTaskOrderByFetchTimeDesc(scrapeTask);
     }
 
-    public PriceFetch createPriceFetch(ScrapeProfile scrapeProfile) {
+    public PriceFetch createPriceFetch(ScrapeTask scrapeTask) {
         PriceFetch priceFetch = new PriceFetch();
-        priceFetch.setScrapeProfile(scrapeProfile);
+        priceFetch.setScrapeTask(scrapeTask);
 
         return priceFetchRepository.save(priceFetch);
     }
