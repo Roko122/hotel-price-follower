@@ -6,7 +6,6 @@ import com.roko.hotelpricefollower.repository.HotelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HotelService {
@@ -16,8 +15,9 @@ public class HotelService {
         this.hotelRepository = hotelRepository;
     }
 
-    public Optional<Hotel> getHotel(Long hotelId) {
-        return hotelRepository.findById(hotelId);
+    public Hotel getHotel(Long hotelId) {
+        return hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new IllegalArgumentException("Hotel with id " + hotelId + " does not exist"));
     }
 
     public List<HotelDto> getHotels() {

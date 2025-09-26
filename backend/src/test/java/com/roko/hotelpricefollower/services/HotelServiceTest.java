@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -22,15 +20,13 @@ public class HotelServiceTest {
     @Test
     void testThatGetHotelByIdReturnsAHotel() {
         //Database contains one test hotel with id 1
-        Optional<Hotel> hotel = hotelService.getHotel(1L);
+        Hotel hotel = hotelService.getHotel(1L);
 
-        assertTrue(hotel.isPresent(), "Hotel could not be found");
-        assertEquals(1L, hotel.get().getId(), "Hotel could not be found");
+        assertEquals(1L, hotel.getId(), "Hotel could not be found");
     }
 
     @Test
-    void testThatGetHotelByIdReturnsAnEmptyOptionalWhenHotelDoesNotExist() {
-        Optional<Hotel> hotel = hotelService.getHotel(999L);
-        assertTrue(hotel.isEmpty(), "A hotel was found");
+    void testThatGetHotelByIdThrowsExceptionWhenHotelDoesNotExist() {
+        assertThrows(IllegalArgumentException.class, () -> hotelService.getHotel(999L));
     }
 }
