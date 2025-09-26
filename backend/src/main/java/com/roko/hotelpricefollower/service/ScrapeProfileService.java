@@ -19,13 +19,13 @@ public class ScrapeProfileService {
     }
 
     public List<ScrapeProfile> getAllScrapeProfilesByHotel(Long hotelId) {
-        Hotel hotel = this.findHotel(hotelId);
+        Hotel hotel = hotelService.getHotel(hotelId);
 
         return scrapeProfileRepository.findAllByHotel(hotel);
     }
 
     public ScrapeProfile createScrapeProfile(Long hotelId, ScrapeProfile toCreate) {
-        Hotel hotel = this.findHotel(hotelId);
+        Hotel hotel = hotelService.getHotel(hotelId);
 
         if (scrapeProfileExists(hotel, toCreate)) {
             throw new IllegalArgumentException("ScrapeProfile already exists with given parameters");
@@ -44,8 +44,8 @@ public class ScrapeProfileService {
         );
     }
 
-    private Hotel findHotel(Long hotelId) {
-        return hotelService.getHotel(hotelId)
-                .orElseThrow(() -> new IllegalArgumentException("Hotel id " + hotelId + " does not exist"));
+    public ScrapeProfile getScrapeProfile(Long profileId) {
+        return scrapeProfileRepository.findById(profileId)
+                .orElseThrow(() -> new IllegalArgumentException("Profile with id " + profileId + " does not exist"));
     }
 }
