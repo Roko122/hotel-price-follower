@@ -15,18 +15,19 @@ import java.util.stream.Collectors;
 public class ScrapeTaskMapper {
 
     public ScrapeTaskDto toScrapeTaskDto(ScrapeTask scrapeTask) {
-        String scrapeUrl = scrapeTask.getScrapeUrl();
-
         return new ScrapeTaskDto(
                 scrapeTask.getId(),
-                scrapeUrl,
-                this.parseFirstDepartureDate(scrapeUrl)
+                scrapeTask.getScrapeUrl(),
+                scrapeTask.getFirstDepartureDate()
         );
     }
 
     public ScrapeTask toScrapeTask(CreateScrapeTaskRequest createScrapeTaskRequest) {
+        String scrapeUrl = createScrapeTaskRequest.scrapeUrl();
+
         return ScrapeTask.builder()
-                .scrapeUrl(createScrapeTaskRequest.scrapeUrl())
+                .scrapeUrl(scrapeUrl)
+                .firstDepartureDate(parseFirstDepartureDate(scrapeUrl))
                 .build();
     }
 
