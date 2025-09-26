@@ -13,7 +13,7 @@ public class RoomPriceValidator {
         this.roomRepository = roomRepository;
     }
 
-    public void validateRequest(Long hotelId, Long roomId, Long profileId) {
+    public void validateRequest(Long hotelId, Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Room with id " + roomId + " does not exist"));
 

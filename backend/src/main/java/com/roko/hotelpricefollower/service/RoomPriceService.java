@@ -59,7 +59,7 @@ public class RoomPriceService {
                                                          Long roomId,
                                                          List<LocalDate> departureDateList) {
         //Throws an exception if request is not valid
-        roomPriceValidator.validateRequest(hotelId, roomId, profileId);
+        roomPriceValidator.validateRequest(hotelId, roomId);
 
         ArrayList<RoomPriceSummaryDto> roomPriceSummaries = new ArrayList<>();
         for (LocalDate departureDate : departureDateList) {
@@ -78,7 +78,7 @@ public class RoomPriceService {
 
     public List<RoomPriceDto> getAllRoomPrices(Long hotelId, Long profileId, Long roomId, LocalDate departureDate) {
         //Throws an exception if request is not valid
-        roomPriceValidator.validateRequest(hotelId, roomId, profileId);
+        roomPriceValidator.validateRequest(hotelId, roomId);
 
         return roomPriceRepository.findAllPricesByDepartureDate(departureDate, roomId, profileId);
     }
