@@ -19,8 +19,9 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
     @Query("""
         SELECT rp
         FROM RoomPrice rp
-        JOIN FETCH rp.priceFetch pf
-        WHERE pf.scrapeProfile.id = :profileId
+        JOIN rp.priceFetch pf
+        JOIN pf.scrapeTask st
+        WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
         ORDER BY pf.fetchTime DESC
@@ -33,8 +34,9 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
     @Query("""
         SELECT rp
         FROM RoomPrice rp
-        JOIN FETCH rp.priceFetch pf
-        WHERE pf.scrapeProfile.id = :profileId
+        JOIN rp.priceFetch pf
+        JOIN pf.scrapeTask st
+        WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
             AND pf.fetchTime BETWEEN :from AND :to
@@ -50,8 +52,9 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
     @Query("""
         SELECT rp
         FROM RoomPrice rp
-        JOIN FETCH rp.priceFetch pf
-        WHERE pf.scrapeProfile.id = :profileId
+        JOIN rp.priceFetch pf
+        JOIN pf.scrapeTask st
+        WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
         ORDER BY rp.priceInCents ASC, pf.fetchTime DESC
@@ -68,7 +71,8 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         )
         FROM RoomPrice rp
         JOIN rp.priceFetch pf
-        WHERE pf.scrapeProfile.id = :profileId
+        JOIN pf.scrapeTask st
+        WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
             AND rp.departureDate = :departureDate
             AND rp.priceInCents IS NOT NULL

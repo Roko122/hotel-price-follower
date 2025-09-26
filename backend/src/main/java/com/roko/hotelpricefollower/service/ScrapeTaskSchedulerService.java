@@ -4,11 +4,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScrapeProfileSchedulerService {
+public class ScrapeTaskSchedulerService {
 
     private final ScrapeTaskService scrapeTaskService;
 
-    public ScrapeProfileSchedulerService(ScrapeTaskService scrapeTaskService) {
+    public ScrapeTaskSchedulerService(ScrapeTaskService scrapeTaskService) {
         this.scrapeTaskService = scrapeTaskService;
     }
 

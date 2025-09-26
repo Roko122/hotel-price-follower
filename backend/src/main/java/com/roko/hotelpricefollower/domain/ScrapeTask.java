@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Getter @Setter
@@ -23,4 +24,25 @@ public class ScrapeTask {
     @JoinColumn(name = "scrape_profile_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private ScrapeProfile scrapeProfile;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ScrapeTask that = (ScrapeTask) o;
+        return Objects.equals(id, that.id) && Objects.equals(scrapeUrl, that.scrapeUrl) && Objects.equals(firstDepartureDate, that.firstDepartureDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, scrapeUrl, firstDepartureDate);
+    }
+
+    @Override
+    public String toString() {
+        return "ScrapeTask{" +
+                "id=" + id +
+                ", scrapeUrl='" + scrapeUrl + '\'' +
+                ", firstDepartureDate=" + firstDepartureDate +
+                '}';
+    }
 }

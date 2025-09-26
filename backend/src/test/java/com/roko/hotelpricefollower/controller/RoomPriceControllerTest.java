@@ -1,6 +1,6 @@
 package com.roko.hotelpricefollower.controller;
 
-import com.roko.hotelpricefollower.service.ScrapeProfileService;
+import com.roko.hotelpricefollower.service.ScrapeTaskService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class RoomPriceControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ScrapeProfileService scrapeProfileService;
+    private ScrapeTaskService scrapeTaskService;
 
     private final String[] dates = {"2026-03-22", "2026-03-29", "2026-04-05", "2026-04-12"};
 
     @BeforeEach
     public void setup() {
-        scrapeProfileService.startScrapes();
+        scrapeTaskService.startScrapes();
     }
 
     @Test
