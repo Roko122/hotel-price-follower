@@ -1,6 +1,7 @@
 package com.roko.hotelpricefollower.service;
 
 import com.roko.hotelpricefollower.domain.PriceFetch;
+import com.roko.hotelpricefollower.domain.ScrapeProfile;
 import com.roko.hotelpricefollower.domain.ScrapeTask;
 import com.roko.hotelpricefollower.repository.ScrapeTaskRepository;
 import com.roko.hotelpricefollower.scraper.HotelScraper;
@@ -21,13 +22,15 @@ public class ScrapeTaskService {
     private final HotelParser hotelParser;
     private final RoomPriceService roomPriceService;
     private final ScrapeTaskRepository scrapeTaskRepository;
+    private final HotelService hotelService;
+    private final ScrapeProfileService scrapeProfileService;
 
     public ScrapeTaskService(
             PriceFetchService priceFetchService,
             HotelScraper hotelScraper,
             HotelParser hotelParser,
             RoomPriceService roomPriceService,
-            ScrapeTaskRepository scrapeTaskRepository) {
+            ScrapeTaskRepository scrapeTaskRepository, HotelService hotelService, ScrapeProfileService scrapeProfileService) {
 
 
         this.priceFetchService = priceFetchService;
@@ -35,6 +38,8 @@ public class ScrapeTaskService {
         this.hotelParser = hotelParser;
         this.roomPriceService = roomPriceService;
         this.scrapeTaskRepository = scrapeTaskRepository;
+        this.hotelService = hotelService;
+        this.scrapeProfileService = scrapeProfileService;
     }
 
     @Transactional
@@ -57,6 +62,19 @@ public class ScrapeTaskService {
 
             startScrape(scrapeTask);
         }
+    }
+
+    public ScrapeTask createScrapeTask(Long hotelId, Long profileId, ScrapeTask scrapeTaskToCreate) {
+        ScrapeProfile scrapeProfile = scrapeProfileService.getScrapeProfile(profileId);
+        hotelService.getHotel(hotelId); //check that hotel also exists throws IllegalArgumentException if not
+
+        if (scrapeTaskExists(scrapeProfile, scrapeTaskToCreate.getFirstDepartureDate())) {
+            throw new IllegalArgumentException("ScrapeTask already exists with given parameters");
+        }
+
+        scrapeTaskToCreate.setScrapeProfile(scrapeProfile);
+
+        return scrapeTaskRepository.save(scrapeTaskToCreate);
     }
 
     private void startScrape(ScrapeTask scrapeTask) {
@@ -90,5 +108,9 @@ public class ScrapeTaskService {
 
     private List<RoomPriceData> parseRoomPrices(String priceMatrix) {
         return hotelParser.parseRoomPrices(priceMatrix);
+    }
+
+    private boolean scrapeTaskExists(ScrapeProfile scrapeProfile, LocalDate firstDepartureDate) {
+        return scrapeTaskRepository.existsByScrapeProfileAndFirstDepartureDate(scrapeProfile, firstDepartureDate);
     }
 }
