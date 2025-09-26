@@ -31,6 +31,7 @@ public class ScrapeProfileService {
             throw new IllegalArgumentException("ScrapeProfile already exists with given parameters");
         }
 
+        toCreate.setHotel(hotel);
         return scrapeProfileRepository.save(toCreate);
     }
 
