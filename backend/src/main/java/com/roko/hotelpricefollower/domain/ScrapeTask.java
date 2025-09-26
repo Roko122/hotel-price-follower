@@ -9,13 +9,20 @@ import java.util.Objects;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-@Table(name = "scrape_tasks")
+@Table(
+        name = "scrape_tasks",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uq_dept_date_scrape_profile",
+                        columnNames = {"first_departure_date", "scrape_profile_id"})
+        }
+)
 public class ScrapeTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "scrape_url", length = 1000, nullable = false)
+    @Column(name = "scrape_url", length = 1000, nullable = false, unique = true)
     private String scrapeUrl;
 
     @Column(name = "first_departure_date", nullable = false)
