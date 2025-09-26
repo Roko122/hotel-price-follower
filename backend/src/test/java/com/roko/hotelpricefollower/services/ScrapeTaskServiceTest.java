@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ScrapeProfileServiceTest {
+public class ScrapeTaskServiceTest {
 
     @Autowired
     private ScrapeTaskService scrapeTaskService;
