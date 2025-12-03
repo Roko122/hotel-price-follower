@@ -1,16 +1,16 @@
 # Hotel Price Follower
 
 ## Table of Contents
-- [💡 Overview](#overview)
-- [✨ Features](#features)
-- [👩‍💻 Technologies Used](#technologies-used)
-- [📦 Getting Started](#getting-started)
-- [🛠️ Installation](#installation)
-- [🔗 API Endpoints](#api-endpoints)
-- [🔧 Future Improvements](#future-improvements)
+- [💡 Overview](#-overview)
+- [✨ Features](#-features)
+- [👩‍💻 Technologies Used](#-technologies-used)
+- [📦 Getting Started](#-getting-started)
+- [🛠️ Installation](#-installation)
+- [🔗 API Endpoints](#-api-endpoints)
+- [🔧 Future Improvements](#-future-improvements)
 
 ## 💡 Overview
-Hotel Price Follower is a full-stack application build for tracking hotel room prices with automated scraping, historical data storage, and price monitoring. 
+Hotel Price Follower is a full-stack application built for tracking hotel room prices with automated scraping, historical data storage, and price monitoring. 
 
 ⚠️ Frontend is still under construction.
 Planned design:
@@ -112,7 +112,7 @@ To get a local copy of this project up and running, follow these steps.
 
 ## 🔗 API Endpoints
 ### Hotels
-   ```bash
+   ```
    GET /api/v1/hotels   - List all hotels
    POST /api/v1/hotels  - Add a new hotel (authenticated users)
    ```
