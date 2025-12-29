@@ -13,8 +13,13 @@ import java.time.LocalDate;
 public class RoomPriceMapper {
 
     public PriceDetailsDto toPriceDetailsDto(RoomPrice roomPrice) {
-        BigDecimal price = new BigDecimal(roomPrice.getPriceInCents()).movePointLeft(2);
+        Long priceInCents = roomPrice.getPriceInCents();
         LocalDate priceFetchedDate = DateTimeUtil.toLocalDate(roomPrice.getPriceFetch().getFetchTime());
+
+        BigDecimal price = null;
+        if (priceInCents != null) {
+            price = new BigDecimal(roomPrice.getPriceInCents()).movePointLeft(2);
+        }
 
         return new PriceDetailsDto(
                 price,
