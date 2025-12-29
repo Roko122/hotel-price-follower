@@ -20,19 +20,6 @@ public class DateParser {
         List<LocalDate> dates = new ArrayList<>();
 
         Integer lastMonth = null;
-//        for (Element date : visibleDates) {
-//
-//            int day = Integer.parseInt(date.getElementsByClass("tcne-pm-flightoffer__item-date-left").text());
-//            String monthName = date.getElementsByClass("tcne-pm-flightoffer__item-date-right-day").text();
-//            int month = FinnishMonth.getMonthNumber(monthName);
-//
-//            //check if year changes, basically Dec -> Jan
-//            if (lastMonth != null && month < lastMonth) {
-//                year += 1;
-//            }
-//            dates.add(LocalDate.of(year, month, day));
-//            lastMonth = month;
-//        }
         for (Element date : visibleDates) {
 
             int day = Integer.parseInt(date.select("span[class^='FlightOffersList__dateDay__']").text());
@@ -51,33 +38,11 @@ public class DateParser {
     }
 
     private List<Element> getVisibleDateElements(Document priceMatrix) {
-        //Elements allDates = priceMatrix.getElementsByClass("tcne-pm-flightoffer");
         return priceMatrix.select("time[aria-hidden='false']");
-
-
-        //Remove non-visible elements
-//        return allDates.stream()
-//                .filter(date ->
-//                        !date.attr("class").contains("tcne-pm-flightoffer--disabled"))
-//                .toList();
     }
 
     private int parseYear(Document priceMatrix) {
-        //Elements elements = priceMatrix.getElementsByClass("tcne-pm-price-detail__row");
         String dateWithYear = priceMatrix.select("dt:contains(Menomatka)").next().text();
         return Integer.parseInt(dateWithYear.split("\\.")[2].split(",")[0]);
-//        for (Element element : elements) {
-//            String title = element.getElementsByClass("tcne-pm-price-detail-row__title").text();
-//
-//            if (title.equals("Menomatka")) {
-//                //Example: Su 22.3.2026, 7:15
-//                String dateWithYear = element.getElementsByTag("div").get(2).text();
-//                //Result: 2026
-//                return Integer.parseInt(dateWithYear.split("\\.")[2].split(",")[0]);
-//            }
-//        }
-
-        //Return current year if parsing fails
-//        return LocalDate.now().getYear();
     }
 }
