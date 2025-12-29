@@ -20,9 +20,10 @@ public class HotelScraper {
         driver.get(hotelUrl);
 
         try {
-            //Wait until priceMatrix is loaded
-            WebElement priceMatrix = getWait(driver).until(webDriver ->
-                    webDriver.findElement(By.className("tcne-pm-matrix")));
+            //Wait until priceMatrix is fully loaded
+            getWait(driver).until(webDriver ->
+                    webDriver.findElement(By.cssSelector("div[class^='Summary__priceContainer__']")));
+            WebElement priceMatrix = driver.findElement(By.cssSelector("div[class^='App__App__']"));
 
             closeCookiesPopup(driver);
             openPriceSummary(priceMatrix);
@@ -38,11 +39,11 @@ public class HotelScraper {
 
     private void closeCookiesPopup(WebDriver driver) {
         //Disallow cookies to hide overlay blocking other clicks
-        driver.findElement(By.xpath("//button[span[text()='Hylkää kaikki']]")).click();
+        driver.findElement(By.cssSelector("button[aria-label='Hylkää kaikki']")).click();
     }
 
     private void openPriceSummary(WebElement priceMatrix) {
-        priceMatrix.findElement(By.className("tcne-pm-price-details__link")).click();
+        priceMatrix.findElement(By.cssSelector("button[aria-label='Hintaerittely']")).click();
     }
 
     private Wait<WebDriver> getWait(WebDriver driver) {
