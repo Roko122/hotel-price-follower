@@ -22,14 +22,15 @@ public class RoomPriceParser {
     }
 
     private Elements roomElements(Document priceMatrix) {
-        return priceMatrix.getElementsByClass("tcne-pm-roomoffers-row");
+        //return priceMatrix.getElementsByClass("tcne-pm-roomoffers-row");
+        return priceMatrix.select("tr[class^='RoomPriceRow__roomPriceRow__']");
     }
 
     private Map<String, List<ParsedRoomPrice>> roomNamesAndPrices(Elements roomElements) {
         Map<String, List<ParsedRoomPrice>> roomNameAndPrices = new LinkedHashMap<>();
 
         for (Element roomElement : roomElements) {
-            String roomName = roomElement.getElementsByClass("tcne-pm-roomoffers-name").text();
+            String roomName = roomElement.select("th[class^='RoomPriceRow__roomHeader__']").text();
             List<ParsedRoomPrice> parsedRoomPrices = this.parseRoomPrices(roomElement);
 
             roomNameAndPrices.put(roomName, parsedRoomPrices);
@@ -40,7 +41,7 @@ public class RoomPriceParser {
     }
 
     private List<ParsedRoomPrice> parseRoomPrices(Element roomElement) {
-        Elements priceElements = roomElement.getElementsByClass("tcne-pm-price-cell-container");
+        Elements priceElements = roomElement.select("td[class^='RoomPriceRow__priceOffer__']");
 
         List<ParsedRoomPrice> roomPrices = new ArrayList<>();
         for (Element priceElement : priceElements) {
@@ -55,16 +56,17 @@ public class RoomPriceParser {
         ParsedRoomPrice roomPrice = new ParsedRoomPrice();
 
         //Check if room is sold out, otherwise parse price
-        String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
-        if (isSoldOut(possiblePrice)) {
+        //String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
+        if (isSoldOut(priceElement.text())) {
             roomPrice.setSoldOut(true);
         } else {
-            Long price = Long.parseLong(possiblePrice.split(",")[0].replace(" ", ""));
+            String priceString = priceElement.select("span[class^='RoomPriceButton__text__']").text();
+            Long price = Long.parseLong(priceString.split(",")[0].replace(" ", ""));
             roomPrice.setPrice(price);
         }
 
         //Check if price contains additional information
-        String possibleAdditionalInfo = priceElement.getElementsByClass("tcne-pm-price-cell__label").text();
+        String possibleAdditionalInfo = priceElement.select("span[class*='RoomPriceButton__tag__']").text();
         if (hasAdditionalInfo(possibleAdditionalInfo)) {
             roomPrice.setAdditionalInformation(possibleAdditionalInfo);
         }
@@ -72,8 +74,8 @@ public class RoomPriceParser {
         return roomPrice;
     }
 
-    private boolean isSoldOut(String possiblePrice) {
-        return possiblePrice.equalsIgnoreCase("Loppuunmyyty");
+    private boolean isSoldOut(String priceElement) {
+        return priceElement.equalsIgnoreCase("Loppuunmyyty");
     }
 
     private boolean hasAdditionalInfo(String possibleAdditionalInfo) {
