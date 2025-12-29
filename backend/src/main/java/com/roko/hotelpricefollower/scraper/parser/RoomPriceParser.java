@@ -22,7 +22,6 @@ public class RoomPriceParser {
     }
 
     private Elements roomElements(Document priceMatrix) {
-        //return priceMatrix.getElementsByClass("tcne-pm-roomoffers-row");
         return priceMatrix.select("tr[class^='RoomPriceRow__roomPriceRow__']");
     }
 
@@ -56,7 +55,6 @@ public class RoomPriceParser {
         ParsedRoomPrice roomPrice = new ParsedRoomPrice();
 
         //Check if room is sold out, otherwise parse price
-        //String possiblePrice = priceElement.getElementsByClass("tcne-pm-price-cell__price").text();
         if (isSoldOut(priceElement.text())) {
             roomPrice.setSoldOut(true);
         } else {
