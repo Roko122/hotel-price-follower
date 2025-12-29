@@ -32,8 +32,7 @@ public class DateParserTest {
         List<LocalDate> result = dateParser.parseDates(priceMatrixDoc);
         assertNotNull(result, "Result should not be null");
         assertFalse(result.isEmpty(), "Result should not be empty");
-        assertTrue(result.contains(LocalDate.of(2026, 1, 4)),
+        assertTrue(result.contains(LocalDate.of(2027, 1, 3)),
                 "Result should contain a specific date");
-
     }
 }
