@@ -9,10 +9,11 @@ async function getPriceSummaryForRoom(
   roomId: number,
   departureDates: string[]
 ): Promise<PriceSummary[]> {
-  const url: string = baseUrl + `/${hotelId}/profiles/${profileId}/rooms/${roomId}/prices/summary`;
+  const url: string = baseUrl + `/${hotelId}/rooms/${roomId}/prices/summary`;
 
   const res = await axios.get(url, {
     params: {
+      profileId: profileId,
       departureDates: departureDates.join(',')
     }
   });
@@ -25,10 +26,11 @@ async function getAllPricesForRoom(
   roomId: number,
   departureDate: string
 ): Promise<PriceData[]> {
-  const url: string = baseUrl + `/${hotelId}/profiles/${profileId}/rooms/${roomId}/prices`;
+  const url: string = baseUrl + `/${hotelId}/rooms/${roomId}/prices`;
 
   const res = await axios.get(url, {
     params: {
+      profileId: profileId,
       departureDate: departureDate
     }
   });
