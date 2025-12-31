@@ -2,6 +2,7 @@ package com.roko.hotelpricefollower.service;
 
 import com.roko.hotelpricefollower.domain.Hotel;
 import com.roko.hotelpricefollower.domain.Room;
+import com.roko.hotelpricefollower.dto.RoomDto;
 import com.roko.hotelpricefollower.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,10 @@ public class RoomService {
 
     public List<Room> findAllRoomsOfHotel(Hotel hotel) {
         return roomRepository.findAllByHotel(hotel);
+    }
+
+    public List<RoomDto> findAllRoomsByHotelId(Long hotelId) {
+        return roomRepository.findAllByHotelId(hotelId);
     }
 
     public List<Room> saveRooms(List<Room> roomsToSave) {
