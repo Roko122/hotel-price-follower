@@ -11,6 +11,7 @@ export type PriceData = {
 };
 
 export type PriceSummary = {
+  departureDate: string;
   latestPrice: PriceSummaryData;
   min30days: PriceSummaryData;
   allTimeMin: PriceSummaryData;
