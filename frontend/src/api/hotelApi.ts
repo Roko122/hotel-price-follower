@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Hotel } from '../types/Hotel.ts';
+import type { Hotel } from '../types/Hotel';
 
 const baseUrl: string = 'http://localhost:8080/api/v1/hotels';
 
