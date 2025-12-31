@@ -119,8 +119,8 @@ To get a local copy of this project up and running, follow these steps.
 
 ### Prices
    ```bash
-   GET /api/v1/hotels/{hotelId}/profiles/{profileId}/rooms/{roomId}/prices          - List all prices for specified room
-   GET /api/v1/hotels/{hotelId}/profiles/{profileId}/rooms/{roomId}/prices/summary  - Price summary for specified room
+   GET /api/v1/hotels/{hotelId}/rooms/{roomId}/prices          - List all prices for specified room
+   GET /api/v1/hotels/{hotelId}/rooms/{roomId}/prices/summary  - Price summary for specified room
    ```
 
 ### Scrape Profiles
