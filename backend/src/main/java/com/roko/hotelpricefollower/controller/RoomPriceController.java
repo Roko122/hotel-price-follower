@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/hotels/{hotelId}/profiles/{profileId}/rooms/{roomId}/prices")
+@RequestMapping("/api/v1/hotels/{hotelId}/rooms/{roomId}/prices")
 public class RoomPriceController {
 
     private final RoomPriceService roomPriceService;
@@ -20,8 +20,8 @@ public class RoomPriceController {
 
     @GetMapping("/summary")
     public List<RoomPriceSummaryDto> getRoomPriceSummary(@PathVariable Long hotelId,
-                                                         @PathVariable Long profileId,
                                                          @PathVariable Long roomId,
+                                                         @RequestParam Long profileId,
                                                          @RequestParam(name = "departureDates") List<LocalDate> departureDateList) {
 
         return roomPriceService.getRoomPriceSummary(hotelId, profileId, roomId, departureDateList);
@@ -29,8 +29,8 @@ public class RoomPriceController {
 
     @GetMapping
     public List<RoomPriceDto> getAllRoomPrices(@PathVariable Long hotelId,
-                                               @PathVariable Long profileId,
                                                @PathVariable Long roomId,
+                                               @RequestParam Long profileId,
                                                @RequestParam LocalDate departureDate) {
 
         return roomPriceService.getAllRoomPrices(hotelId, profileId, roomId, departureDate);

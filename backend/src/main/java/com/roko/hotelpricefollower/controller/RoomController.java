@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/hotels/{hotelId}/profiles/{profileId}/rooms")
+@RequestMapping("/api/v1/hotels/{hotelId}/rooms")
 public class RoomController {
 
     private final RoomService roomService;
