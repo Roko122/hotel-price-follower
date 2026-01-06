@@ -6,22 +6,34 @@ import type { JSX } from 'react';
 type PriceProps = {
   price: number;
   date: string;
+  soldOut?: boolean;
+  additionalInformation?: string | null;
 };
 
 function Price(props: PriceProps): JSX.Element {
-  const { price, date } = props;
+  const { price, date, soldOut, additionalInformation } = props;
+
+  const showTooltip: boolean = additionalInformation !== null;
+  const isAdditionalInformationPresent: boolean = additionalInformation === undefined;
+
+  const formatDate = (date: string): string => {
+    const [year, month, day] = date.split('-');
+    return `${day}.${month}.${year}`;
+  };
 
   return (
-    <div className="flex flex-col items-center">
-      <p className="font-bold text-2xl text-center pt-2 leading-none">{price} €</p>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <HelpCircle className="w-4 h-4 text-gray-500" />
-        </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <p>Hinta {date}</p>
-        </TooltipContent>
-      </Tooltip>
+    <div className="flex flex-col justify-center items-center">
+      <p className="font-bold text-2xl text-center leading-none">{soldOut ? 'Loppuunmyyty' : `${price} €`}</p>
+      {showTooltip && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <HelpCircle className="w-3.5 h-3.5 text-gray-500 hover:text-gray-600 cursor-help" />
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            {isAdditionalInformationPresent ? <p>Hinta {formatDate(date)}</p> : <p>{additionalInformation}</p>}
+          </TooltipContent>
+        </Tooltip>
+      )}
     </div>
   );
 }
