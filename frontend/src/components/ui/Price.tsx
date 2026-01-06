@@ -1,5 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { HelpCircle } from 'lucide-react';
+import { formatDate } from '@/util/dateConverter.js';
 
 import type { JSX } from 'react';
 
@@ -15,11 +16,6 @@ function Price(props: PriceProps): JSX.Element {
 
   const showTooltip: boolean = additionalInformation !== null;
   const isAdditionalInformationPresent: boolean = additionalInformation === undefined;
-
-  const formatDate = (date: string): string => {
-    const [year, month, day] = date.split('-');
-    return `${day}.${month}.${year}`;
-  };
 
   return (
     <div className="flex flex-col justify-center items-center">
