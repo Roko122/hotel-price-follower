@@ -16,6 +16,7 @@ type RoomSelectProps = {
 
 function RoomSelect(props: RoomSelectProps): JSX.Element {
   const { rooms, selectedRoom, setSelectedRoom } = props;
+  const [query, setQuery] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -30,23 +31,28 @@ function RoomSelect(props: RoomSelectProps): JSX.Element {
       </PopoverTrigger>
       <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
         <Command>
-          <CommandInput placeholder="Hae huoneita" className="h-9" />
+          <CommandInput placeholder="Hae huoneita" className="h-9" value={query} onValueChange={setQuery} />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Huoneita ei löytynyt.</CommandEmpty>
             <CommandGroup>
-              {rooms.map((room) => (
-                <CommandItem
-                  key={room.id}
-                  value={room.id.toString()}
-                  onSelect={(currentValue) => {
-                    setSelectedRoom(currentValue === selectedRoom ? '' : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  {room.roomType}
-                  <Check className={cn('ml-auto', selectedRoom === room.id.toString() ? 'opacity-100' : 'opacity-0')} />
-                </CommandItem>
-              ))}
+              {rooms
+                .filter((room) => room.roomType.toLowerCase().includes(query.toLowerCase()))
+                .map((room) => (
+                  <CommandItem
+                    key={room.id}
+                    value={room.roomType}
+                    onSelect={() => {
+                      setSelectedRoom(room.id.toString());
+                      setOpen(false);
+                      setQuery('');
+                    }}
+                  >
+                    {room.roomType}
+                    <Check
+                      className={cn('ml-auto', selectedRoom === room.id.toString() ? 'opacity-100' : 'opacity-0')}
+                    />
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </CommandList>
         </Command>
