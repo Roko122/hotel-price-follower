@@ -5,6 +5,7 @@ import com.roko.hotelpricefollower.domain.ScrapeTask;
 import com.roko.hotelpricefollower.repository.PriceFetchRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,9 @@ public class PriceFetchService {
 
     public PriceFetch savePriceFetch(PriceFetch priceFetch) {
         return priceFetchRepository.save(priceFetch);
+    }
+
+    public Instant getLastFetchTime(Long hotelId) {
+        return priceFetchRepository.findLastFetchTimeByHotel(hotelId);
     }
 }
