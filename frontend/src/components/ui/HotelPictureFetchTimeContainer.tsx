@@ -25,7 +25,7 @@ function HotelPictureFetchTimeContainer(props: HotelPictureFetchTimeContainerPro
   const dateObject = new Date(fetchTime.lastFetchTime);
 
   const dateString = () => {
-    if (dateObject.getDate() === new Date().getDay()) {
+    if (dateObject.getDate() === new Date().getDate()) {
       return 'tänään';
     } else {
       return dateObject.toLocaleDateString('fi-FI');
