@@ -40,12 +40,12 @@ function HotelPictureFetchTimeContainer(props: HotelPictureFetchTimeContainerPro
     .replace('.', ':');
 
   return (
-    <>
-      <img src={hotel?.imageUrl} className="border-2 border-gray-700 rounded-2xl w-1/4" />
+    <div className="flex flex-col items-center">
+      <img src={hotel?.imageUrl} className="border-2 border-gray-700 rounded-2xl w-xl" />
       <p className="mt-2 text-gray-600 text-xl">
         Hinnat haettu viimeksi {dateString()} klo {dateTime}
       </p>
-    </>
+    </div>
   );
 }
 
