@@ -21,17 +21,33 @@ function ProfileSelect(props: ProfileSelectProps): JSX.Element {
     }
   };
 
+  const adultText = (adults: number): string => {
+    if (adults === 1) {
+      return `${adults} aikuinen`;
+    } else {
+      return `${adults} aikuista`;
+    }
+  };
+
+  const childrenText = (children: number): string => {
+    if (children === 1) {
+      return `${children} lapsi`;
+    } else {
+      return `${children} lasta`;
+    }
+  };
+
   const profileText = (profile: SearchProfile): string => {
     if (profile.children === 0) {
-      return `${profile.adults} aikuista, ${weekText(profile.durationWeeks)}`;
+      return `${adultText(profile.adults)}, ${weekText(profile.durationWeeks)}`;
     } else {
-      return `${profile.adults} aikuista, ${profile.children} lasta, ${profile.durationWeeks} viikkoa`;
+      return `${adultText(profile.adults)}, ${childrenText(profile.children)}, ${weekText(profile.durationWeeks)}`;
     }
   };
 
   return (
     <Select value={selectedProfile} onValueChange={setSelectedProfile}>
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-full font-bold">
         <SelectValue placeholder="Valitse profiili" />
       </SelectTrigger>
       <SelectContent position="popper" className="w-full">
