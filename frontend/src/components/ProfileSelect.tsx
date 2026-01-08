@@ -47,7 +47,7 @@ function ProfileSelect(props: ProfileSelectProps): JSX.Element {
 
   return (
     <Select value={selectedProfile} onValueChange={setSelectedProfile}>
-      <SelectTrigger className="w-full font-bold">
+      <SelectTrigger className="w-full font-medium data-[placeholder]:text-black">
         <SelectValue placeholder="Valitse profiili" />
       </SelectTrigger>
       <SelectContent position="popper" className="w-full">
