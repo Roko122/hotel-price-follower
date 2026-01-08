@@ -12,11 +12,13 @@ function DatePriceLayout(props: DatePriceLayoutProps): JSX.Element {
 
   return (
     <>
-      <DateContainer dates={priceData} />
-      <div className="flex flex-col gap-5">
-        <PriceTextContainer prices={priceData} category="latestPrice" />
-        <PriceTextContainer prices={priceData} category="min30days" />
-        <PriceTextContainer prices={priceData} category="allTimeMin" />
+      <div className="w-135">
+        <DateContainer dates={priceData} />
+        <div className="flex flex-col gap-5">
+          <PriceTextContainer prices={priceData} category="latestPrice" />
+          <PriceTextContainer prices={priceData} category="min30days" />
+          <PriceTextContainer prices={priceData} category="allTimeMin" />
+        </div>
       </div>
     </>
   );

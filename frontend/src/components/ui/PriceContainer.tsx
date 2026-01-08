@@ -14,7 +14,7 @@ function PriceContainer(props: PriceContainerProps): JSX.Element {
   const { category, prices } = props;
 
   return (
-    <div className="flex gap-5 min-h-12">
+    <div className="flex justify-evenly min-h-12 w-full">
       {prices.map((priceSummary, index) => {
         const priceData = priceSummary[category];
         return (

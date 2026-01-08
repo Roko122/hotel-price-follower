@@ -49,7 +49,7 @@ function PriceTextContainer(props: PriceTextContainerProps): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col gap-3 px-10 py-5 items-start border rounded-2xl border-gray-500 shadow-lg inset-shadow-2xs">
+    <div className="flex flex-col gap-3 px-10 py-5 items-start border rounded-2xl border-gray-500 shadow-lg inset-shadow-2xs w-full">
       {displayText()}
       <PriceContainer category={category} prices={prices} />
     </div>
