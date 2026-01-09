@@ -10,9 +10,11 @@ function DateContainer(props: DateContainerProps): JSX.Element {
   const { dates } = props;
 
   return (
-    <div className="flex justify-evenly text-center gap-10 font-bold mb-1 px-10 w-full">
+    <div className="flex justify-evenly text-center font-bold mb-1 w-full px-10">
       {dates.map((date) => (
-        <span key={date.departureDate}>{formatDateWithWeekday(date.departureDate)}</span>
+        <span className="flex-1 min-w-20" key={date.departureDate}>
+          {formatDateWithWeekday(date.departureDate)}
+        </span>
       ))}
     </div>
   );
