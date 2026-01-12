@@ -14,7 +14,7 @@ function HotelPictureFetchTimeContainer(props: HotelPictureFetchTimeContainerPro
   if (!fetchTime?.lastFetchTime) {
     return (
       <>
-        <div className="flex justify-center items-center border-2 rounded-2xl w-1/4 h-70">
+        <div className="flex justify-center items-center border-2 rounded-2xl w-full h-70">
           <Spinner className="size-8 text-yellow-400" />
         </div>
         <p className="mt-2 text-gray-600 text-xl">Ladataan tietoja...</p>
@@ -41,7 +41,7 @@ function HotelPictureFetchTimeContainer(props: HotelPictureFetchTimeContainerPro
 
   return (
     <div className="flex flex-col items-center">
-      <img src={hotel?.imageUrl} className="border-2 border-gray-700 rounded-2xl w-xl" />
+      <img src={hotel?.imageUrl} className="border-2 border-gray-700 rounded-2xl w-full" />
       <p className="mt-2 text-gray-600 text-xl">
         Hinnat haettu viimeksi {dateString()} klo {dateTime}
       </p>
