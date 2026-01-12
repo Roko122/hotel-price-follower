@@ -10,3 +10,11 @@ export const formatDateWithWeekday = (date: string): string => {
   const [_year, month, day] = date.split('-');
   return `${weekday} ${day}.${month}.`;
 };
+
+export const formatDateWithWeekdayAndYear = (date: string): string => {
+  const weekdays: string[] = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+  const weekday: string = weekdays[new Date(date).getDay()];
+
+  const [year, month, day] = date.split('-');
+  return `${weekday} ${day}.${month}.${year}`;
+};
