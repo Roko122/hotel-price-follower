@@ -33,6 +33,7 @@ type MultiSelectContextType = {
   items: Map<string, ReactNode>;
   single: boolean;
   onItemAdded: (value: string, label: ReactNode) => void;
+  maxSelections?: number;
 };
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
 
@@ -41,13 +42,15 @@ export function MultiSelect({
   values,
   defaultValues,
   onValuesChange,
-  single = false
+  single = false,
+  maxSelections
 }: {
   children: ReactNode;
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
   single?: boolean;
+  maxSelections?: number;
 }) {
   const [open, setOpen] = useState(false);
   const [internalValues, setInternalValues] = useState(new Set<string>(values ?? defaultValues));
@@ -60,10 +63,13 @@ export function MultiSelect({
         return prev.has(value) ? new Set<string>() : new Set<string>([value]);
       }
       const newSet = new Set(prev);
-      if (newSet.has(value)) {
-        newSet.delete(value);
-      } else {
+      if (!newSet.has(value)) {
+        if (maxSelections && newSet.size >= maxSelections) {
+          return prev;
+        }
         newSet.add(value);
+      } else {
+        newSet.delete(value);
       }
       return newSet;
     };
@@ -88,7 +94,8 @@ export function MultiSelect({
         single,
         toggleValue,
         items,
-        onItemAdded
+        onItemAdded,
+        maxSelections
       }}
     >
       <Popover open={open} onOpenChange={setOpen} modal={true}>
@@ -206,11 +213,12 @@ export function MultiSelectValue({
     >
       {[...selectedValues]
         .filter((value) => items.has(value))
+        .sort((a, b) => a.localeCompare(b))
         .map((value) => (
           <Badge
             variant="outline"
             data-selected-item
-            className="group flex items-center gap-1"
+            className="group flex items-center gap-1 hover:bg-red-200"
             key={value}
             onClick={
               clickToRemove
@@ -282,8 +290,9 @@ export function MultiSelectItem({
   badgeLabel?: ReactNode;
   value: string;
 } & Omit<ComponentPropsWithoutRef<typeof CommandItem>, 'value'>) {
-  const { toggleValue, selectedValues, onItemAdded } = useMultiSelectContext();
+  const { toggleValue, selectedValues, onItemAdded, maxSelections } = useMultiSelectContext();
   const isSelected = selectedValues.has(value);
+  const isMaxReached = maxSelections !== undefined && selectedValues.size >= maxSelections;
 
   useEffect(() => {
     onItemAdded(value, badgeLabel ?? children);
@@ -292,6 +301,7 @@ export function MultiSelectItem({
   return (
     <CommandItem
       {...props}
+      disabled={!isSelected && isMaxReached}
       onSelect={() => {
         toggleValue(value);
         onSelect?.(value);
