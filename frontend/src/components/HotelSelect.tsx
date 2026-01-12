@@ -15,7 +15,7 @@ function HotelSelect(props: HotelSelectProps): JSX.Element {
 
   return (
     <Select value={selectedHotel} onValueChange={setSelectedHotel}>
-      <SelectTrigger className="w-full font-medium data-[placeholder]:text-black">
+      <SelectTrigger className="w-full font-medium data-[placeholder]:text-black hover:bg-accent">
         <SelectValue placeholder="Valitse hotelli" />
       </SelectTrigger>
       <SelectContent position="popper" className="w-full">
