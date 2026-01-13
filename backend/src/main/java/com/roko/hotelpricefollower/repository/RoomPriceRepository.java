@@ -23,7 +23,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         JOIN pf.scrapeTask st
         WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
-            AND rp.departureDate = :departureDate
+            AND rp.departureDate.date = :departureDate
         ORDER BY pf.fetchTime DESC
     """)
     Optional<RoomPrice> findMostRecentPrice(@Param("departureDate") LocalDate departureDate,
@@ -38,7 +38,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         JOIN pf.scrapeTask st
         WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
-            AND rp.departureDate = :departureDate
+            AND rp.departureDate.date = :departureDate
             AND pf.fetchTime BETWEEN :from AND :to
         ORDER BY rp.priceInCents ASC, pf.fetchTime DESC
     """)
@@ -56,7 +56,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         JOIN pf.scrapeTask st
         WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
-            AND rp.departureDate = :departureDate
+            AND rp.departureDate.date = :departureDate
         ORDER BY rp.priceInCents ASC, pf.fetchTime DESC
     """)
     Optional<RoomPrice> findAllTimeMin(@Param("departureDate") LocalDate departureDate,
@@ -74,7 +74,7 @@ public interface RoomPriceRepository extends JpaRepository<RoomPrice, Long> {
         JOIN pf.scrapeTask st
         WHERE st.scrapeProfile.id = :profileId
             AND rp.room.id = :roomId
-            AND rp.departureDate = :departureDate
+            AND rp.departureDate.date = :departureDate
             AND rp.priceInCents IS NOT NULL
         ORDER BY pf.fetchTime ASC
     """)

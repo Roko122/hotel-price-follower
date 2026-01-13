@@ -3,7 +3,6 @@ package com.roko.hotelpricefollower.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -12,8 +11,7 @@ import java.util.Objects;
 @Table(
         name = "room_prices",
         indexes = {
-                @Index(name = "idx_price", columnList = "price_in_cents"),
-                @Index(name = "idx_departure_date", columnList = "departure_date")
+                @Index(name = "idx_price", columnList = "price_in_cents")
         }
 )
 public class RoomPrice {
@@ -26,8 +24,9 @@ public class RoomPrice {
     @Column(name = "price_in_cents", precision = 6, scale = 0)
     private Long priceInCents;
 
-    @Column(name = "departure_date", nullable = false)
-    private LocalDate departureDate;
+    @JoinColumn(name = "departure_date_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DepartureDate departureDate;
 
     @Column(name = "sold_out", nullable = false)
     private boolean soldOut;

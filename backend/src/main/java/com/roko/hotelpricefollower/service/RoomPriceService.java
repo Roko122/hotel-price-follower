@@ -27,16 +27,18 @@ public class RoomPriceService {
     private final RoomService roomService;
     private final RoomPriceValidator roomPriceValidator;
     private final RoomPriceMapper roomPriceMapper;
+    private final DepartureDateService departureDateService;
 
     public RoomPriceService(RoomPriceRepository roomPriceRepository,
                             RoomService roomService,
                             RoomPriceValidator roomPriceValidator,
-                            RoomPriceMapper roomPriceMapper) {
+                            RoomPriceMapper roomPriceMapper, DepartureDateService departureDateService) {
 
         this.roomPriceRepository = roomPriceRepository;
         this.roomService = roomService;
         this.roomPriceValidator = roomPriceValidator;
         this.roomPriceMapper = roomPriceMapper;
+        this.departureDateService = departureDateService;
     }
 
     @Transactional
@@ -110,7 +112,7 @@ public class RoomPriceService {
 
         return RoomPrice.builder()
                 .priceInCents(price)
-                .departureDate(roomPriceData.getDepartureDate())
+                .departureDate(departureDateService.getDepartureDateId(roomPriceData.getDepartureDate()))
                 .soldOut(roomPriceData.getParsedRoomPrice().getSoldOut())
                 .additionalInfo(roomPriceData.getParsedRoomPrice().getAdditionalInformation())
                 .room(room)
