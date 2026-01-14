@@ -1,5 +1,5 @@
 import PriceContainer from '@/components/ui/PriceContainer.js';
-import { formatDate } from '@/util/dateConverter.js';
+import { formatDate } from '@/utils/dateConverter.js';
 
 import type { JSX } from 'react';
 import type { PriceCategory, PriceSummary } from '@/types/Price.js';

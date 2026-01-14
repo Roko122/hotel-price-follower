@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/multi-select.js';
 
 import type { JSX } from 'react';
-import { formatDateWithWeekdayAndYear } from '@/util/dateConverter.js';
+import { formatDateWithWeekdayAndYear } from '@/utils/dateConverter.js';
 
 type DatesPickerProps = {
   dates: string[];

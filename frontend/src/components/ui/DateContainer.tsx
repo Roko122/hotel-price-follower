@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import type { PriceSummary } from '@/types/Price.js';
-import { formatDateWithWeekday } from '@/util/dateConverter.js';
+import { formatDateWithWeekday } from '@/utils/dateConverter.js';
 
 type DateContainerProps = {
   dates: PriceSummary[];

@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { HelpCircle } from 'lucide-react';
-import { formatDate } from '@/util/dateConverter.js';
+import { formatDate } from '@/utils/dateConverter.js';
 
 import type { JSX } from 'react';
 
